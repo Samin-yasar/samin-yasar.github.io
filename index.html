@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Samin Yasar is a Bangladeshi student developing free privacy-focused tools." />
     <title>Samin Yasar | Developer, Photographer, Adventurer</title>
-    <link rel="icon" type="image/png" href="https://www.gravatar.com/avatar/be8aac9579fc3b7b485abb1396112cc2?s=32&d=identicon&r=g">
-    <link rel="apple-touch-icon" href="https://www.gravatar.com/avatar/be8aac9579fc3b7b485abb1396112cc2?s=180&d=identicon&r=g">
+    <link rel="icon" type="image/png"
+        href="https://www.gravatar.com/avatar/be8aac9579fc3b7b485abb1396112cc2?s=32&d=identicon&r=g">
+    <link rel="apple-touch-icon"
+        href="https://www.gravatar.com/avatar/be8aac9579fc3b7b485abb1396112cc2?s=180&d=identicon&r=g">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
     <style>
         * {
@@ -210,6 +212,7 @@
         .hero-content {
             max-width: 900px;
             animation: fadeInUp 1s ease-out;
+            margin-bottom: 5rem;
         }
 
         /* Avatar Styling */
@@ -245,19 +248,25 @@
         }
 
         @keyframes avatarFloat {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0px);
             }
+
             50% {
                 transform: translateY(-10px);
             }
         }
 
         @keyframes avatarGlow {
-            0%, 100% {
+
+            0%,
+            100% {
                 opacity: 0.6;
                 transform: scale(1);
             }
+
             50% {
                 opacity: 0.8;
                 transform: scale(1.02);
@@ -400,7 +409,7 @@
 
         /* About Section */
         .about {
-            padding: 6rem 0;
+            padding: 10rem 0;
             background: rgba(30, 41, 59, 0.3);
         }
 
@@ -790,9 +799,8 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <img src="https://www.gravatar.com/avatar/be8aac9579fc3b7b485abb1396112cc2?s=150&d=identicon&r=g" 
-                 alt="Samin Yasar Avatar" 
-                 class="hero-avatar">
+            <img src="https://www.gravatar.com/avatar/be8aac9579fc3b7b485abb1396112cc2?s=150&d=identicon&r=g"
+                alt="Samin Yasar Avatar" class="hero-avatar">
             <h1>Photography, Code & Adventure</h1>
             <p>Hey there! I'm Samin, a passionate photographer, cybersecurity expert, and lifelong learner from
                 Bangladesh 🌍💙</p>
@@ -821,24 +829,25 @@
         <div class="container">
             <h2 class="section-title fade-in">Privacy Tools & Projects</h2>
             <div class="projects-grid">
-                <div class="project-card fade-in">
+                <div class="project-card fade-in" onclick="window.location.href='https://samin-yasar.github.io/StarryCrypt/'">
                     <div class="project-icon">🛡️</div>
                     <h3>StarryCrypt</h3>
                     <p>End-to-end text encryption tool using browser-only architecture to protect your privacy. No data
                         leaves your device.</p>
                 </div>
-                <div class="project-card fade-in">
+                <div class="project-card fade-in" onclick="window.location.href='https://samin-yasar.github.io/Lunr/'">
                     <div class="project-icon">🌙</div>
                     <h3>Lunr</h3>
-                    <p>Lunr is a free online period tracking web app designed to help users monitor their menstrual cycles, 
-                        predict ovulation, and log symptoms. With intuitive tools and a user-friendly interface, it provides valuable insights into menstrual health, 
-                        empowering users to better understand their bodies.</p>
+                    <p>Lunr is a free online period tracking web app designed to help users monitor their menstrual
+                        cycles, predict ovulation, and log symptoms. With intuitive tools and a user-friendly interface,
+                        it provides valuable insights into menstrual health, empowering users to better understand their
+                        bodies.</p>
                 </div>
-                <div class="project-card fade-in">
+                <div class="project-card fade-in" onclick="window.location.href='https://samin-yasar.github.io/Starpass/'">
                     <div class="project-icon">🔑</div>
                     <h3>Starpass</h3>
-                    <p>Generate strong, secure, and private passwords or passphrase right in your browser. Fully offline with
-                        customizable complexity.</p>
+                    <p>Generate strong, secure, and private passwords or passphrase right in your browser. Fully offline
+                        with customizable complexity.</p>
                 </div>
             </div>
         </div>
@@ -849,7 +858,8 @@
         <div class="container">
             <h2 class="section-title fade-in">My GitHub Activity</h2>
             <div class="github-stats fade-in">
-                <img src="https://github-readme-stats.vercel.app/api?username=samin-yasar&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0f172a&title_color=06b6d4&text_color=f8fafc&icon_color=6366f1" alt="Samin Yasar GitHub Stats">
+                <img src="https://github-readme-stats.vercel.app/api?username=samin-yasar&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0f172a&title_color=06b6d4&text_color=f8fafc&icon_color=6366f1"
+                    alt="Samin Yasar GitHub Stats">
             </div>
         </div>
     </section>
@@ -877,7 +887,8 @@
                 </div>
                 <div class="form-group">
                     <label for="message">Your Message</label>
-                    <textarea id="message" name="message" rows="5" required placeholder="Tell me about your project or just say hello..."></textarea>
+                    <textarea id="message" name="message" rows="5" required
+                        placeholder="Tell me about your project or just say hello..."></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Send Message ✨</button>
             </form>
@@ -890,10 +901,10 @@
             <div class="social-links">
                 <!-- Gravatar -->
                 <a href="https://gravatar.com/saminyasar23" target="_blank" aria-label="Gravatar" title="Gravatar">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path 
-                        d="M12 0c-1.326 0-2.4 1.074-2.4 2.4v8.4c0 1.324 1.074 2.398 2.4 2.398s2.4-1.074 2.4-2.398V5.21c2.795.99 4.799 3.654 4.799 6.789 0 3.975-3.225 7.199-7.199 7.199S4.801 15.975 4.801 12c0-1.989.805-3.789 2.108-5.091.938-.938.938-2.458 0-3.396s-2.458-.938-3.396 0C1.344 5.686 0 8.686 0 12c0 6.627 5.373 12 12 12s12-5.373 12-12S18.627 0 12 0"/>
-                </svg>
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 0c-1.326 0-2.4 1.074-2.4 2.4v8.4c0 1.324 1.074 2.398 2.4 2.398s2.4-1.074 2.4-2.398V5.21c2.795.99 4.799 3.654 4.799 6.789 0 3.975-3.225 7.199-7.199 7.199S4.801 15.975 4.801 12c0-1.989.805-3.789 2.108-5.091.938-.938.938-2.458 0-3.396s-2.458-.938-3.396 0C1.344 5.686 0 8.686 0 12c0 6.627 5.373 12 12 12s12-5.373 12-12S18.627 0 12 0" />
+                    </svg>
                 </a>
                 <!-- Bluesky -->
                 <a href="https://bsky.app/profile/samin-yasar.bsky.social" target="_blank" aria-label="Bluesky"
@@ -906,18 +917,19 @@
 
                 <!-- Mastodon -->
                 <a rel="me" href="https://fosstodon.org/@Samin" target="_blank" aria-label="Mastodon" title="Mastodon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path 
-                        d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z"/>
-                </svg>                
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z" />
+                    </svg>
                 </a>
 
                 <!-- Wire -->
-                <a href="https://account.wire.com/user-profile/?id=3e2f45d8-d727-488e-a6d2-7a00aa00907a@wire.com" target="_blank" aria-label="Wire" title="Wire">
-                <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path 
-                        d="M24 14.475c.009 4.084-3.296 7.401-7.38 7.41h-.016c-1.637-.015-3.222-.58-4.5-1.605-3.269 2.544-7.981 1.957-10.524-1.313-1-1.286-1.555-2.862-1.58-4.492V2.82h1.41v11.655c-.002 3.314 2.683 6.002 5.996 6.004 1.293.001 2.552-.416 3.589-1.189-1.163-1.335-1.806-3.043-1.815-4.814v-9.54c0-1.557 1.263-2.82 2.82-2.82s2.82 1.263 2.82 2.82v9.54c.006 1.766-.623 3.474-1.77 4.814 2.674 1.957 6.429 1.371 8.383-1.304.745-1.019 1.149-2.248 1.157-3.511V2.82H24v11.655zm-10.59-9.54c0-.778-.632-1.41-1.41-1.41-.779 0-1.41.631-1.41 1.41v9.54c.002 1.41.501 2.776 1.41 3.855.908-1.079 1.408-2.445 1.41-3.855v-9.54z"/>
-                </svg>
+                <a href="https://account.wire.com/user-profile/?id=3e2f45d8-d727-488e-a6d2-7a00aa00907a@wire.com"
+                    target="_blank" aria-label="Wire" title="Wire">
+                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M24 14.475c.009 4.084-3.296 7.401-7.38 7.41h-.016c-1.637-.015-3.222-.58-4.5-1.605-3.269 2.544-7.981 1.957-10.524-1.313-1-1.286-1.555-2.862-1.58-4.492V2.82h1.41v11.655c-.002 3.314 2.683 6.002 5.996 6.004 1.293.001 2.552-.416 3.589-1.189-1.163-1.335-1.806-3.043-1.815-4.814v-9.54c0-1.557 1.263-2.82 2.82-2.82s2.82 1.263 2.82 2.82v9.54c.006 1.766-.623 3.474-1.77 4.814 2.674 1.957 6.429 1.371 8.383-1.304.745-1.019 1.149-2.248 1.157-3.511V2.82H24v11.655zm-10.59-9.54c0-.778-.632-1.41-1.41-1.41-.779 0-1.41.631-1.41 1.41v9.54c.002 1.41.501 2.776 1.41 3.855.908-1.079 1.408-2.445 1.41-3.855v-9.54z" />
+                    </svg>
                 </a>
 
                 <!-- GitHub -->
@@ -931,8 +943,8 @@
                 <!-- Twitter/X -->
                 <a href="https://x.com/SaminYasar23" target="_blank" aria-label="X" title="X">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path 
-                            d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                        <path
+                            d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
                     </svg>
                 </a>
 
@@ -1054,10 +1066,10 @@
             form.addEventListener('submit', async (e) => {
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalText = submitBtn.textContent;
-                
+
                 submitBtn.textContent = 'Sending... ⏳';
                 submitBtn.disabled = true;
-                
+
                 // Let the form submit naturally to FormSubmit
                 setTimeout(() => {
                     submitBtn.textContent = 'Message Sent! ✅';
@@ -1075,12 +1087,12 @@
             cards.forEach((card, index) => {
                 // Staggered animation delay
                 card.style.animationDelay = `${index * 0.2}s`;
-                
+
                 card.addEventListener('mouseenter', () => {
                     card.style.transform = 'translateY(-20px) scale(1.03)';
                     card.style.zIndex = '10';
                 });
-                
+
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = 'translateY(0) scale(1)';
                     card.style.zIndex = '1';
@@ -1096,7 +1108,7 @@
             mouseX = e.clientX / window.innerWidth;
             mouseY = e.clientY / window.innerHeight;
             isMouseMoving = true;
-            
+
             setTimeout(() => {
                 isMouseMoving = false;
             }, 100);
@@ -1109,7 +1121,7 @@
                     const speed = (index % 3 + 1) * 0.8;
                     const xPos = (mouseX - 0.5) * speed * 20;
                     const yPos = (mouseY - 0.5) * speed * 20;
-                    
+
                     particle.style.transform += ` translate(${xPos}px, ${yPos}px)`;
                 });
             }
@@ -1121,7 +1133,7 @@
             const heroTitle = document.querySelector('.hero h1');
             const originalText = heroTitle.textContent;
             heroTitle.textContent = '';
-            
+
             let i = 0;
             const typingInterval = setInterval(() => {
                 if (i < originalText.length) {
@@ -1139,7 +1151,7 @@
             window.addEventListener('scroll', () => {
                 const scrolled = window.pageYOffset;
                 const parallaxElements = document.querySelectorAll('.hero-content');
-                
+
                 parallaxElements.forEach(element => {
                     const speed = 0.5;
                     element.style.transform = `translate3d(0, ${scrolled * speed}px, 0)`;
@@ -1154,15 +1166,15 @@
                 button.addEventListener('mouseenter', () => {
                     button.style.transform = 'translateY(-3px) scale(1.05)';
                 });
-                
+
                 button.addEventListener('mouseleave', () => {
                     button.style.transform = 'translateY(0) scale(1)';
                 });
-                
+
                 button.addEventListener('mousedown', () => {
                     button.style.transform = 'translateY(-1px) scale(1.02)';
                 });
-                
+
                 button.addEventListener('mouseup', () => {
                     button.style.transform = 'translateY(-3px) scale(1.05)';
                 });
@@ -1231,7 +1243,7 @@
             document.body.style.background = 'linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3)';
             document.body.style.backgroundSize = '400% 400%';
             document.body.style.animation = 'rainbow 2s ease infinite';
-            
+
             // Add CSS animation
             const style = document.createElement('style');
             style.textContent = `
@@ -1242,14 +1254,14 @@
                 }
             `;
             document.head.appendChild(style);
-            
+
             // Reset after 5 seconds
             setTimeout(() => {
                 document.body.style.background = 'linear-gradient(135deg, var(--dark) 0%, var(--dark-lighter) 50%, #334155 100%)';
                 document.body.style.animation = 'none';
                 document.head.removeChild(style);
             }, 5000);
-            
+
             // Show message
             const message = document.createElement('div');
             message.textContent = '🎉 Easter Egg Found! You discovered the Konami Code! 🎮';
@@ -1268,7 +1280,7 @@
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             `;
             document.body.appendChild(message);
-            
+
             setTimeout(() => {
                 document.body.removeChild(message);
             }, 3000);
@@ -1278,13 +1290,13 @@
         function optimizePerformance() {
             // Throttle scroll events
             let ticking = false;
-            
+
             function updateScrollEffects() {
                 updateScrollProgress();
                 handleHeaderScroll();
                 ticking = false;
             }
-            
+
             window.addEventListener('scroll', () => {
                 if (!ticking) {
                     requestAnimationFrame(updateScrollEffects);
@@ -1296,7 +1308,7 @@
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             showLoadingAnimation();
-            
+
             // Initialize all features
             createParticles();
             initSmoothScrolling();
@@ -1305,12 +1317,12 @@
             enhanceButtonAnimations();
             initKonamiCode();
             optimizePerformance();
-            
+
             // Observe all fade-in elements
             document.querySelectorAll('.fade-in').forEach(el => {
                 observer.observe(el);
             });
-            
+
             // Start animations
             setTimeout(() => {
                 hideLoadingAnimation();
