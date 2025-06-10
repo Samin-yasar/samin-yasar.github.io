@@ -575,6 +575,17 @@
             min-height: 120px;
         }
 
+        .form-disclaimer {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-disclaimer strong {
+            color: var(--accent);
+        }
+
         /* Footer */
         footer {
             padding: 4rem 0 2rem;
@@ -642,6 +653,12 @@
             color: var(--gray);
             font-size: 1.1rem;
             margin-top: 1rem;
+        }
+
+        .trademark-disclaimer {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            color: var(--gray);
         }
 
         /* Animations */
@@ -829,7 +846,8 @@
         <div class="container">
             <h2 class="section-title fade-in">Privacy Tools & Projects</h2>
             <div class="projects-grid">
-                <div class="project-card fade-in" onclick="window.location.href='https://samin-yasar.github.io/StarryCrypt/'">
+                <div class="project-card fade-in"
+                    onclick="window.location.href='https://samin-yasar.github.io/StarryCrypt/'">
                     <div class="project-icon">🛡️</div>
                     <h3>StarryCrypt</h3>
                     <p>End-to-end text encryption tool using browser-only architecture to protect your privacy. No data
@@ -839,15 +857,29 @@
                     <div class="project-icon">🌙</div>
                     <h3>Lunr</h3>
                     <p>Lunr is a free online period tracking web app designed to help users monitor their menstrual
-                        cycles, predict ovulation, and log symptoms. With intuitive tools and a user-friendly interface,
-                        it provides valuable insights into menstrual health, empowering users to better understand their
-                        bodies.</p>
+                        cycles, predict ovulation, and log symptoms. </p>
                 </div>
                 <div class="project-card fade-in" onclick="window.location.href='https://samin-yasar.github.io/Starpass/'">
                     <div class="project-icon">🔑</div>
                     <h3>Starpass</h3>
                     <p>Generate strong, secure, and private passwords or passphrase right in your browser. Fully offline
                         with customizable complexity.</p>
+                </div>
+                <div class="project-card fade-in" onclick="window.location.href='https://samin-yasar.github.io/Private-Wave'">
+                    <div class="project-icon">💬</div>
+                    <h3>Private Wave</h3>
+                    <p>
+                        Private-Wave is a peer-to-peer chat app with end-to-end encryption and real-time messaging, 
+                        built for privacy-first communication.
+                    </p>
+                </div>
+                <div class="project-card fade-in" onclick="window.location.href='https://samin-yasar.github.io/OriginScan'">
+                    <div class="project-icon">🔎</div>
+                    <h3>OriginScan</h3>
+                    <p>
+                        OriginScan scans EAN-13 barcodes to detect the country of origin, display its location and flag, 
+                        and highlight mismatches — all with privacy-first design.
+                    </p>
                 </div>
             </div>
         </div>
@@ -872,6 +904,7 @@
                 Feel free to reach out to collaborate, chat, or just share thoughts. I'm socially open and eager to
                 connect 😊
             </p>
+            <p class="form-disclaimer"><strong>Disclaimer:</strong> Information sent via this form is not end-to-end encrypted. Please do not share sensitive information.</p>
             <form action="https://formsubmit.co/samin.rash525@silomails.com" method="POST" class="contact-form fade-in">
                 <input type="hidden" name="_next" value="https://samin-yasar.github.io/thanks.html">
                 <input type="hidden" name="_captcha" value="true">
@@ -974,6 +1007,7 @@
                 </a>
             </div>
             <p class="footer-text">&copy; 2020-2025 Samin Yasar. Crafted with 💙 and passion for privacy.</p>
+            <p class="footer-text trademark-disclaimer">All other trademarks are registered to their respective owners.</p>
         </div>
     </footer>
 
