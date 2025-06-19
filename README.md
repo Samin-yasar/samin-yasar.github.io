@@ -37,16 +37,16 @@ This website is a static HTML, CSS, and JavaScript site, making it incredibly ea
 
 ### To view the website locally:
 
-1.  **Clone the repository (or download `real.html`):**
+1.  **Clone the repository (or download `index.html`):**
     If this is part of a Git repository, you would clone it:
     ```bash
     git clone <repository-url>
     cd <repository-name>
     ```
-    Otherwise, simply ensure you have the `real.html` file (and any associated image/asset folders if they existed separately) on your local machine.
+    Otherwise, simply ensure you have the `index.html` file (and any associated image/asset folders if they existed separately) on your local machine.
 
-2.  **Open `real.html`:**
-    Simply double-click the `real.html` file in your file explorer. It will open directly in your default web browser.
+2.  **Open `index.html`:**
+    Simply double-click the `index.html` file in your file explorer. It will open directly in your default web browser.
 
 ### To deploy the website:
 
@@ -56,7 +56,7 @@ You can host this website on any static site hosting service. Popular free optio
 * **Vercel:** Offers fast deployment and a generous free tier.
 * **Netlify:** Similar to Vercel, with great build and deployment features.
 
-Just upload the `real.html` file (and any other asset files like images, if they were external) to your chosen hosting service.
+Just upload the `index.html` file (and any other asset files like images, if they were external) to your chosen hosting service.
 
 ## Customization
 
