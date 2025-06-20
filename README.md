@@ -1,102 +1,114 @@
-# Samin Yasar | Personal Website
+# Samin Yasar - Personal Portfolio Website
 
-This is the source code for Samin Yasar's personal website, showcasing his work as a developer, photographer, and adventurer. The site features a clean, responsive design with accessibility options and dynamic content loading.
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![Website: online](https://img.shields.io/website?url=https%3A%2F%2Fsamin-yasar.github.io%2F)
 
-## Features
+This repository contains the source code for my personal portfolio website. It's a fully responsive, single-page website designed to showcase my skills, projects, and journey as a developer, photographer, and cybersecurity expert from Bangladesh.
 
-* **Vibrant Animated Background:** An interactive canvas background with particles for a modern and dynamic feel.
-* **Accessibility Options:** A dedicated panel allows users to customize their Browse experience with features like:
-    * Font size adjustment (increase, decrease, reset)
-    * Monochrome filter
-    * Color inversion
-    * Big cursor
-    * Link highlighting
-    * Reading guide
-* **Dynamic Content Loading:** Projects, certifications, and social links are injected into the HTML using JavaScript, making them easy to manage and update.
-* **Responsive Navigation:** A sticky header with smooth scrolling navigation and a mobile-friendly hamburger menu.
-* **Interactive Project Cards:** Project cards feature a subtle glow effect on hover and link to external project pages.
-* **GitHub Stats Integration:** Displays a dynamically generated GitHub activity graph.
-* **Accordion Certifications:** Certifications are presented in an expandable accordion format for easy Browse.
-* **Contact Form:** A functional contact form powered by Formsubmit.co.
-* **Smooth Scroll & Fade-in Animations:** Enhances user experience with subtle animations on scroll.
+**Live Demo: [samin-yasar.github.io](https://samin-yasar.github.io/)**
 
-## Technologies Used
+---
 
-* **HTML5:** For the core structure of the website.
-* **CSS3:** For styling, including responsive design, animations, and custom variables.
-* **JavaScript (ES6+):** For dynamic content loading, animated background, accessibility features, and interactive elements.
-* **Font Awesome:** For various icons used across the site (e.g., GitHub, LinkedIn, Email, accessibility icons).
-* **SVG (Inline):** Used for some social media icons (e.g., Gravatar, Bluesky, Mastodon, X).
-* **Google Fonts (Inter):** For a clean and modern typography.
-* **GitHub Readme Stats:** Used to embed GitHub activity statistics.
-* **Formsubmit.co:** A free service used for handling contact form submissions.
+### Screenshot
 
-## Setup and Usage
+![Portfolio Screenshot](./screenshot.png)
+*(To add a screenshot, take a picture of your live website, name it `screenshot.png`, and place it in the root of your project directory.)*
 
-This website is a static HTML, CSS, and JavaScript site, making it incredibly easy to deploy.
+## ➤ About The Project
 
-### To view the website locally:
+This portfolio is built from the ground up using vanilla HTML, CSS, and JavaScript, with a focus on performance, modern design, and accessibility. It features a dynamic animated background, interactive UI elements, and dynamically injected content for easy updates. The primary goal is to provide a central hub for my professional and personal projects while highlighting my commitment to privacy-focused tools and digital rights.
 
-1.  **Clone the repository (or download `index.html`):**
-    If this is part of a Git repository, you would clone it:
-    ```bash
-    git clone <repository-url>
-    cd <repository-name>
+---
+
+## ➤ Key Features
+
+-   **Fully Responsive Design**: Looks great on all devices, from mobile phones to desktops.
+-   **Dynamic Animated Background**: An interactive particle animation built with HTML5 Canvas.
+-   **Client-Side Search**: A fast, JSON-based search functionality to easily navigate the site's content.
+-   **Dynamic Content**: Projects, certifications, and education sections are populated dynamically from JavaScript arrays, making updates simple.
+-   **Accessibility Panel**: A comprehensive accessibility toolkit that allows users to adjust font size, enable monochrome or inverted color modes, use a larger cursor, highlight links, and use a reading guide.
+-   **Modern UI/UX**: Smooth scroll, fade-in animations, and interactive hover effects to enhance user experience.
+-   **Contact Form**: A functional contact form integrated with [FormSubmit.co](https://formsubmit.co/) for easy and secure communication.
+
+---
+
+## ➤ Built With
+
+This project was built using core web technologies without any major frameworks.
+
+-   **HTML5**
+-   **CSS3** (with CSS Variables, Flexbox, and Grid)
+-   **Vanilla JavaScript (ES6+)**
+-   **Font Awesome** - For icons
+-   **Google Fonts** - For the 'Inter' typeface
+-   **FormSubmit** - For the contact form backend
+
+---
+
+## ➤ Content Overview
+
+### Privacy Tools & Projects
+
+A collection of my open-source, privacy-first tools:
+* **StarryCrypt**: End-to-end text encryption tool.
+* **Lunr**: A free online period tracking web app.
+* **Starpass**: A secure password and passphrase generator.
+* **Private Wave**: A peer-to-peer, end-to-end encrypted chat app.
+* **OriginScan**: A barcode scanner to detect a product's country of origin.
+* **Bangla Converter**: An offline tool to convert between Bengali numerical systems.
+
+### Awards & Certifications
+
+A selection of my professional certifications:
+* **Prompt Engineering for ChatGPT** - Vanderbilt University
+* **HTML, CSS, and Javascript for Web Developers** - The Johns Hopkins University
+* **Ethical Hacker** - Cisco
+* **Code in Place** - Stanford University
+* **Microsoft 365 Fundamentals Specialization** - Microsoft
+* **Intellectual Property Law Specialization** - University of Pennsylvania
+
+### Education
+
+My academic journey is based on the NCTB curriculum in Bangladesh:
+* **Nursery to 5th Grade**: Rajendrapur Cantonment Public School and College
+* **6th to 10th Grade**: Rajuk Uttara Model College
+* **11th to 12th Grade**: Pending...
+
+---
+
+## ➤ Installation & Usage
+
+This is a static website. No complex build steps are required.
+
+1.  **Clone the repository:**
+    ```sh
+    git clone [https://github.com/samin-yasar/samin-yasar.github.io.git](https://github.com/samin-yasar/samin-yasar.github.io.git)
     ```
-    Otherwise, simply ensure you have the `index.html` file (and any associated image/asset folders if they existed separately) on your local machine.
-
-2.  **Open `index.html`:**
-    Simply double-click the `index.html` file in your file explorer. It will open directly in your default web browser.
-
-### To deploy the website:
-
-You can host this website on any static site hosting service. Popular free options include:
-
-* **GitHub Pages:** Ideal for personal projects, as you can host directly from your GitHub repository.
-* **Vercel:** Offers fast deployment and a generous free tier.
-* **Netlify:** Similar to Vercel, with great build and deployment features.
-
-Just upload the `index.html` file (and any other asset files like images, if they were external) to your chosen hosting service.
-
-## Customization
-
-### Content (JavaScript)
-
-* **Projects:** Modify the `projectsData` array in the JavaScript section to add, remove, or update your projects.
-    ```javascript
-    const projectsData = [
-        { icon: '🛡️', title: 'StarryCrypt', desc: '...', url: '...' },
-        // Add or remove objects here
-    ];
+2.  **Navigate to the project directory:**
+    ```sh
+    cd samin-yasar.github.io
     ```
-* **Certifications:** Update the `certificationsData` array for your awards and certifications.
-    ```javascript
-    const certificationsData = [
-        { title: "Prompt Engineering for ChatGPT", issuer: "...", date: "...", url: "..." },
-        // Add or remove objects here
-    ];
-    ```
-* **Social Links:** The social links are also injected via JavaScript. Edit the `document.querySelector('.social-links').innerHTML` string to change, add, or remove social media profiles. Remember to include the correct SVG paths or Font Awesome `<i>` tags.
-* **Contact Form:** The `document.querySelector('.contact-form').innerHTML` string contains the form. Update the `action` attribute to your desired Formsubmit.co endpoint or other form handling service. You can also customize the `_autoresponse` and `_blacklist` values.
+3.  **Open `index.html` in your browser:**
+    You can simply double-click the `index.html` file or open it from your browser's "File > Open" menu.
 
-### Styling (CSS)
+---
 
-* **Color Variables:** The `:root` section in the `<style>` block defines CSS variables for colors. Adjust these to change the site's color scheme.
-    ```css
-    :root {
-        --primary: #4f46e5;
-        --secondary: #0ea5e9;
-        /* ... other colors ... */
-    }
-    ```
-* **Font Size:** The base font size can be adjusted using `--font-size` variable.
-* **Sections:** Modify the styles for `.hero`, `.about`, `.projects`, `.certifications`, `.contact`, and `footer` to customize layout, padding, and backgrounds.
+## ➤ Connect with Me
 
-### Images
+I'm always open to connecting with new people and exploring collaborations.
 
-* **Hero Avatar:** Update the `src` attribute of the `hero-avatar` image in the HTML.
-* **GitHub Stats:** Change the `username` in the `github-readme-stats.vercel.app` URL to display your own GitHub stats.
+-   **Email**: [samin.rash525@silomails.com](mailto:samin.rash525@silomails.com)
+-   **GitHub**: [@samin-yasar](https://github.com/samin-yasar)
+-   **LinkedIn**: [@samin-yasar23](https://www.linkedin.com/in/samin-yasar23)
+-   **X (Twitter)**: [@SaminYasar23](https://x.com/SaminYasar23)
+-   **Mastodon**: [@Samin@fosstodon.org](https://fosstodon.org/@Samin)
+-   **Bluesky**: [@samin-yasar.github.io](https://bsky.app/profile/samin-yasar.github.io)
+-   **Gravatar**: [saminyasar23](https://gravatar.com/saminyasar23)
 
-## License
-Copyright (c) 2022-2025 Samin Yasar
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+---
+
+## ➤ License
+
+This project is licensed under the MIT License.
+
+&copy; 2020-2025 Samin Yasar
