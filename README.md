@@ -9,11 +9,6 @@ This repository contains the source code for my personal portfolio website. It's
 
 ---
 
-### Screenshot
-
-![Portfolio Screenshot](./screenshot.png)
-*(To add a screenshot, take a picture of your live website, name it `screenshot.png`, and place it in the root of your project directory.)*
-
 ## ➤ About The Project
 
 This portfolio is built from the ground up using vanilla HTML, CSS, and JavaScript, with a focus on performance, modern design, and accessibility. It features a dynamic animated background, interactive UI elements, and dynamically injected content for easy updates. The primary goal is to provide a central hub for my professional and personal projects while highlighting my commitment to privacy-focused tools and digital rights.
