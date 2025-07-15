@@ -80,27 +80,31 @@
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
+        #page-wrapper {
+            transition: filter 0.5s ease;
+        }
+        
         /*
         ========================================
         Accessibility Styles
         ========================================
         */
-        body.accessibility-monochrome {
+        body.accessibility-monochrome #page-wrapper {
             filter: grayscale(100%);
         }
 
-        body.accessibility-invert {
+        body.accessibility-invert #page-wrapper {
             filter: invert(100%);
         }
 
-        body.accessibility-invert img,
-        body.accessibility-invert video,
-        body.accessibility-invert .github-stats img,
-        body.accessibility-invert .hero-avatar {
+        body.accessibility-invert #page-wrapper img,
+        body.accessibility-invert #page-wrapper video,
+        body.accessibility-invert #page-wrapper .github-stats img,
+        body.accessibility-invert #page-wrapper .hero-avatar {
             filter: invert(100%);
             /* Double-invert images to look normal */
         }
-
+        
         body.accessibility-big-cursor {
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="font-size: 24px;"><text y="24">▲</text></svg>') 16 16, auto;
         }
@@ -176,8 +180,6 @@
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
-            flex-wrap: wrap;
-            /* Allow wrapping for search */
         }
 
         .logo {
@@ -190,7 +192,6 @@
             cursor: pointer;
             transition: transform 0.3s ease;
             z-index: 1011;
-            /* Ensure logo is above mobile nav */
         }
 
         .logo:hover {
@@ -201,6 +202,8 @@
             display: flex;
             gap: 1.5rem;
             list-style: none;
+            margin-left: auto;
+            margin-right: 2rem;
         }
 
         .nav-links a {
@@ -232,10 +235,29 @@
             width: 100%;
         }
 
-        /* Mobile Menu */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #search-toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        #search-toggle-btn:hover {
+            color: var(--accent);
+        }
+
         .menu-toggle {
-            display: none;
-            /* Hidden on desktop */
             z-index: 1011;
             cursor: pointer;
             background: none;
@@ -330,45 +352,79 @@
 
         /*
         ========================================
-        Search Bar Styles
+        Search Overlay Styles
         ========================================
         */
         .search-container {
-            position: relative;
-            margin-left: 2rem;
-            flex-grow: 0.5;
-            /* Allows search to take available space */
-        }
-
-        #search-box {
-            width: 100%;
-            padding: 0.6rem 1rem;
-            border-radius: 20px;
-            border: 1px solid rgba(79, 70, 229, 0.5);
-            background-color: rgba(30, 41, 59, 0.8);
-            color: var(--light);
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        #search-box:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(20, 184, 166, 0.3);
-        }
-
-        #search-results {
-            position: absolute;
-            top: 120%;
+            position: fixed;
+            top: 0;
             left: 0;
             width: 100%;
-            background: var(--dark-lighter);
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            max-height: 400px;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1020;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 2rem;
+            padding-top: 20vh;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .search-container.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .search-container #search-box {
+            width: 100%;
+            max-width: 600px;
+            font-size: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: 30px;
+            background-color: var(--dark);
+            border: 2px solid var(--primary);
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+        
+        .search-container #search-box:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(20, 184, 166, 0.5);
+        }
+        
+        #search-close-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            color: var(--light);
+            background: none;
+            border: none;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        #search-close-btn:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .search-container #search-results {
+            position: static;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 1rem;
+            box-shadow: none;
+            background: transparent;
+            border: none;
+            max-height: 50vh;
             overflow-y: auto;
-            z-index: 1100;
-            border: 1px solid var(--primary);
         }
 
         .search-result-item {
@@ -378,6 +434,8 @@
             display: block;
             border-bottom: 1px solid rgba(79, 70, 229, 0.2);
             transition: background-color 0.2s ease;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
         }
 
         .search-result-item:last-child {
@@ -670,59 +728,89 @@
 
         .certifications-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
         }
 
-        .certification-item {
+        .certification-card {
             background: var(--dark);
             border: 1px solid rgba(79, 70, 229, 0.3);
             border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .certification-item[open] {
-            border-color: var(--accent);
-        }
-
-        .certification-summary {
-            padding: 1.5rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            list-style: none;
+            padding: 2rem;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .certification-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .cert-header {
+            display: flex;
             align-items: center;
-            transition: color 0.3s ease;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(79, 70, 229, 0.2);
         }
 
-        .certification-summary:hover {
-            color: var(--accent-bright);
+        .cert-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 5px;
+            background-color: white;
+            padding: 4px;
         }
 
-        .certification-summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .certification-summary .plus-minus::before {
-            content: '+';
-            font-size: 1.5rem;
-            color: var(--accent);
-            transition: transform 0.3s ease-out;
-            display: inline-block;
-        }
-
-        .certification-item[open] .certification-summary .plus-minus::before {
-            transform: rotate(45deg);
-        }
-
-        .certification-details {
-            padding: 0 1.5rem 1.5rem;
-            font-size: 0.95rem;
+        .cert-issuer {
+            font-weight: 600;
             color: var(--gray-light);
-            border-top: 1px solid rgba(79, 70, 229, 0.2);
-            margin: 0 1.5rem;
+        }
+
+        .cert-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--light);
+            line-height: 1.4;
+            flex-grow: 1; /* Makes card bodies equal height */
+            margin-bottom: 1rem;
+        }
+
+        .cert-date {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .cert-verify-btn {
+            margin-top: auto; /* Pushes button to the bottom */
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background-color: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            transition: all 0.3s ease;
+            text-transform: none; /* Override general .btn styles if needed */
+            letter-spacing: normal;
+        }
+
+        .cert-verify-btn:hover {
+            background-color: var(--accent);
+            color: var(--dark);
+            transform: none; /* Override general .btn hover */
+            box-shadow: none; /* Override general .btn hover */
         }
 
         /*
@@ -859,22 +947,15 @@
 
         .social-links a svg {
             width: 1.5rem;
-            /* Match font-size of <i> tags */
             height: 1.5rem;
-            /* Match font-size of <i> tags */
             fill: var(--gray);
-            /* Set the fill color */
             vertical-align: middle;
-            /* Align with text/icons if needed */
             transition: fill 0.3s ease, transform 0.3s ease;
-            /* Add transitions for hover effect */
         }
 
         .social-links a:hover svg {
             fill: var(--accent);
-            /* Change color on hover */
             transform: translateY(-5px) scale(1.1);
-            /* Apply the same hover transform */
         }
 
         /*
@@ -1076,21 +1157,18 @@
 
         /*
         ========================================
-        Responsive Design - Mobile First
+        Responsive Design
         ========================================
         */
+        @media (min-width: 993px) {
+            .menu-toggle {
+                display: none;
+            }
+        }
+        
         @media (max-width: 992px) {
             .nav-links {
                 display: none;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .search-container {
-                display: none;
-                /* Hide search in nav on tablet */
             }
         }
 
@@ -1128,14 +1206,40 @@
 </head>
 
 <body>
-    <canvas id="canvas-background"></canvas>
+    <div id="page-wrapper">
+        <canvas id="canvas-background"></canvas>
 
-    <div id="reading-guide"></div>
+        <div id="reading-guide"></div>
 
-    <header id="header">
-        <nav>
-            <div class="logo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Samin Yasar</div>
-            <ul class="nav-links">
+        <header id="header">
+            <nav>
+                <div class="logo" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Samin Yasar</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#certifications">Certifications</a></li>
+                    <li><a href="#education">Education</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="header-actions">
+                    <button id="search-toggle-btn" aria-label="Open search bar">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="menu-toggle" aria-label="Open navigation menu">
+                        <span class="hamburger"></span>
+                    </button>
+                </div>
+            </nav>
+            <div class="search-container">
+                <input type="search" id="search-box" placeholder="Search the site...">
+                <button id="search-close-btn" aria-label="Close search bar">&times;</button>
+                <div id="search-results"></div>
+            </div>
+        </header>
+
+        <div class="mobile-nav">
+            <ul class="mobile-nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
@@ -1143,113 +1247,92 @@
                 <li><a href="#education">Education</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <div class="search-container">
-                <input type="search" id="search-box" placeholder="Search...">
-                <div id="search-results"></div>
-            </div>
-            <button class="menu-toggle" aria-label="Open navigation menu">
-                <span class="hamburger"></span>
-            </button>
-        </nav>
-    </header>
-
-    <div class="mobile-nav">
-        <ul class="mobile-nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#certifications">Certifications</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </div>
-
-    <main>
-        <section class="hero" id="home">
-            <div class="hero-content">
-                <img src="https://www.gravatar.com/avatar/be8aac9579fc3b7b485abb1396112cc2?s=150&d=identicon&r=g"
-                    alt="Samin Yasar Avatar" class="hero-avatar">
-                <h1>Photography, Code & Adventure</h1>
-                <p>Hey there! I'm Samin, a passionate photographer, cybersecurity expert, and lifelong learner from
-                    Bangladesh 🌍💙</p>
-                <div class="cta-buttons">
-                    <a href="#projects" class="btn btn-primary"><i class="fas fa-wrench"></i> Explore My Tools</a>
-                    <a href="#contact" class="btn btn-secondary"><i class="fas fa-comments"></i> Let's Connect</a>
-                </div>
-            </div>
-        </section>
-
-        <section class="about fade-in-up" id="about">
-            <div class="container">
-                <h2 class="section-title">Who I Am</h2>
-                <div class="about-content">
-                    <p>I thrive on adventure—whether it's exploring new places, cycling through unknown paths, or diving
-                        into tech trends. My passions span photography, gaming, digital security, media, and AI. I'm
-                        deeply committed to climate awareness and charity, and my love for anime keeps me dreaming
-                        beyond borders. 🌌💙</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="projects" id="projects">
-            <div class="container">
-                <h2 class="section-title fade-in-up">Privacy Tools & Projects</h2>
-                <div class="projects-grid">
-                </div>
-            </div>
-        </section>
-
-        <section class="stats fade-in-up">
-            <div class="container">
-                <h2 class="section-title">My GitHub Activity</h2>
-                <div class="github-stats">
-                    <img src="https://github-readme-stats.vercel.app/api?username=samin-yasar&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0f172a&title_color=06b6d4&text_color=f8fafc&icon_color=6366f1"
-                        alt="Samin Yasar GitHub Stats" loading="lazy">
-                </div>
-            </div>
-        </section>
-
-        <section class="education fade-in-up" id="education">
-            <div class="container">
-                <h2 class="section-title">My Education</h2>
-                <div class="education-container">
-                </div>
-                <p class="nctb-note">
-                    Curriculum based on the National Curriculum and Textbook Board (NCTB), Bangladesh.
-                </p>
-            </div>
-        </section>
-
-        <section class="certifications" id="certifications">
-            <div class="container">
-                <h2 class="section-title fade-in-up">Awards & Certifications</h2>
-                <div class="certifications-grid">
-                </div>
-            </div>
-        </section>
-
-        <section class="contact fade-in-up" id="contact">
-            <div class="container">
-                <h2 class="section-title">Let's Work Together</h2>
-                <form class="contact-form" action="https://formsubmit.co/samin.rash525@silomails.com" method="POST">
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <footer id="footer">
-        <div class="container">
-            <div class="social-links">
-            </div>
-            <p class="footer-text">&copy; 2020-2025 Samin Yasar. All Rights Reserved.</p>
-            <p class="personal-note">Samin Yasar — Crafting secure code, championing digital rights, and treading
-                lightly on a changing Earth.</p>
-            <p class="trademark-disclaimer">All other trademarks are registered to their respective owners.</p>
         </div>
-    </footer>
 
+        <main>
+            <section class="hero" id="home">
+                <div class="hero-content">
+                    <img src="https://www.gravatar.com/avatar/be8aac9579fc3b7b485abb1396112cc2?s=150&d=identicon&r=g"
+                        alt="Samin Yasar Avatar" class="hero-avatar">
+                    <h1>Photography, Code & Adventure</h1>
+                    <p>Hey there! I'm Samin, a passionate photographer, cybersecurity expert, and lifelong learner from
+                        Bangladesh 🌍💙</p>
+                    <div class="cta-buttons">
+                        <a href="#projects" class="btn btn-primary"><i class="fas fa-wrench"></i> Explore My Tools</a>
+                        <a href="#contact" class="btn btn-secondary"><i class="fas fa-comments"></i> Let's Connect</a>
+                    </div>
+                </div>
+            </section>
 
-    <button id="accessibility-settings-btn" aria-label="Accessibility Settings">
+            <section class="about fade-in-up" id="about">
+                <div class="container">
+                    <h2 class="section-title">Who I Am</h2>
+                    <div class="about-content">
+                        <p>I thrive on adventure—whether it's exploring new places, cycling through unknown paths, or diving
+                            into tech trends. My passions span photography, gaming, digital security, media, and AI. I'm
+                            deeply committed to climate awareness and charity, and my love for anime keeps me dreaming
+                            beyond borders. 🌌💙</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="projects" id="projects">
+                <div class="container">
+                    <h2 class="section-title fade-in-up">Privacy Tools & Projects</h2>
+                    <div class="projects-grid">
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats fade-in-up">
+                <div class="container">
+                    <h2 class="section-title">My GitHub Activity</h2>
+                    <div class="github-stats">
+                        <img src="https://github-readme-stats.vercel.app/api?username=samin-yasar&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0f172a&title_color=06b6d4&text_color=f8fafc&icon_color=6366f1"
+                            alt="Samin Yasar GitHub Stats" loading="lazy">
+                    </div>
+                </div>
+            </section>
+
+            <section class="education fade-in-up" id="education">
+                <div class="container">
+                    <h2 class="section-title">My Education</h2>
+                    <div class="education-container">
+                    </div>
+                    <p class="nctb-note">
+                        Curriculum based on the National Curriculum and Textbook Board (NCTB), Bangladesh.
+                    </p>
+                </div>
+            </section>
+
+            <section class="certifications" id="certifications">
+                <div class="container">
+                    <h2 class="section-title fade-in-up">Awards & Certifications</h2>
+                    <div class="certifications-grid">
+                    </div>
+                </div>
+            </section>
+
+            <section class="contact fade-in-up" id="contact">
+                <div class="container">
+                    <h2 class="section-title">Let's Work Together</h2>
+                    <form class="contact-form" action="https://formsubmit.co/samin.rash525@silomails.com" method="POST">
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <footer id="footer">
+            <div class="container">
+                <div class="social-links">
+                </div>
+                <p class="footer-text">&copy; 2020-2025 Samin Yasar. All Rights Reserved.</p>
+                <p class="personal-note">Samin Yasar — Crafting secure code, championing digital rights, and treading
+                    lightly on a changing Earth.</p>
+                <p class="trademark-disclaimer">All other trademarks are registered to their respective owners.</p>
+            </div>
+        </footer>
+    </div> <button id="accessibility-settings-btn" aria-label="Accessibility Settings">
         <i class="fas fa-universal-access"></i>
     </button>
     <div id="accessibility-panel">
@@ -1357,29 +1440,29 @@
             ];
 
             const certificationsData = [
-                { title: "Prompt Engineering for ChatGPT", issuer: "Vanderbilt University", date: "Nov 2024", url: "https://coursera.org/verify/JX2HO91W37QA" },
-                { title: "HTML, CSS, and Javascript for Web Developers", issuer: "The Johns Hopkins University", date: "Nov 2024", url: "https://coursera.org/verify/CT64714MQNJ7" },
-                { title: "Responsive Web Design", issuer: "freeCodeCamp", date: "Sep 2023", url: "https://freecodecamp.org/certification/samin_yasar23/responsive-web-design" },
-                { title: "Ethical Hacker", issuer: "Cisco", date: "Oct 2024", url: "https://www.credly.com/badges/4e0cff81-a500-403c-8590-3ed7f4200637" },
-                { title: "Code in Place", issuer: "Stanford University", date: "Jun 2024", url: "https://codeinplace.stanford.edu/cip4/certificate/q2enwj" },
-                { title: "Microsoft 365 Fundamentals Specialization", issuer: "Microsoft", date: "Nov 2024", url: "https://www.coursera.org/verify/specialization/RP0FVBSWQJJ5" },
-                { title: "Work Smarter with Microsoft Word (with Honor)", issuer: "Microsoft", date: "Apr 2024", url: "https://www.coursera.org/verify/X5ZSJ6L5NM8L" },
-                { title: "English for Media Literacy", issuer: "University of Pennsylvania", date: "Apr 2024", url: "https://www.coursera.org/verify/H6FCNWXPAPFQ" },
-                { title: "Bronze Award", issuer: "iDEA Foundation", date: "Oct 2024", url: "https://idea.org.uk/roa/PA5USO6JZX" },
-                { title: "Disaster Preparedness", issuer: "University of Pittsburgh", date: "Nov 2024", url: "https://www.coursera.org/verify/YY6RWMHJ8AWA" },
-                { title: "Intellectual Property Law Specialization", issuer: "University of Pennsylvania", date: "Nov 2024", url: "https://www.coursera.org/verify/specialization/HA87JBJSHE83" },
+                { title: "Prompt Engineering for ChatGPT", issuer: "Vanderbilt University", date: "Nov 2024", url: "https://coursera.org/verify/JX2HO91W37QA", logo: "assets/Vanderbilt_logo.svg" },
+                { title: "HTML, CSS, and Javascript for Web Developers", issuer: "Johns Hopkins University", date: "Nov 2024", url: "https://coursera.org/verify/CT64714MQNJ7", logo: "assets/Johns_Hopkins_University_Shield_Blue.svg" },
+                { title: "Responsive Web Design", issuer: "freeCodeCamp", date: "Sep 2023", url: "https://freecodecamp.org/certification/samin_yasar23/responsive-web-design", logo: "assets/freecodecamp.svg" },
+                { title: "Ethical Hacker", issuer: "Cisco", date: "Oct 2024", url: "https://www.credly.com/badges/4e0cff81-a500-403c-8590-3ed7f4200637", logo: "assets/cisco.svg" },
+                { title: "Code in Place", issuer: "Stanford University", date: "Jun 2024", url: "https://codeinplace.stanford.edu/cip4/certificate/q2enwj", logo: "assets/Seal_of_Leland_Stanford_Junior_University.svg" },
+                { title: "Microsoft 365 Fundamentals Specialization", issuer: "Microsoft", date: "Nov 2024", url: "https://www.coursera.org/verify/specialization/RP0FVBSWQJJ5", logo: "assets/Microsoft_logo.svg" },
+                { title: "Work Smarter with Microsoft Word (with Honor)", issuer: "Microsoft", date: "Apr 2024", url: "https://www.coursera.org/verify/X5ZSJ6L5NM8L", logo: "assets/Microsoft_logo.svg" },
+                { title: "English for Media Literacy", issuer: "University of Pennsylvania", date: "Apr 2024", url: "https://www.coursera.org/verify/H6FCNWXPAPFQ", logo: "assets/Shield_of_the_University_of_Pennsylvania.svg" },
+                { title: "Bronze Award", issuer: "The iDEA Award", date: "Oct 2024", url: "https://idea.org.uk/roa/PA5USO6JZX", logo: "assets/idea-blue.svg" },
+                { title: "Disaster Preparedness", issuer: "University of Pittsburgh", date: "Nov 2024", url: "https://www.coursera.org/verify/YY6RWMHJ8AWA", logo: "assets/University_of_Pittsburgh_seal.svg" },
+                { title: "Intellectual Property Law Specialization", issuer: "University of Pennsylvania", date: "Nov 2024", url: "https://www.coursera.org/verify/specialization/HA87JBJSHE83", logo: "assets/Shield_of_the_University_of_Pennsylvania.svg" },
             ];
 
             const educationData = [
                 { level: "11th to 12th Grade", institution: "Pending...", status: "in-progress" },
                 { level: "6th to 10th Grade", institution: "Rajuk Uttara Model College", status: "completed" },
                 { level: "Nursery to 5th Grade", institution: "Rajendrapur Cantonment Public School and College", status: "completed" },
-                
             ];
 
             // ===================================
             // DYNAMIC CONTENT INJECTION
             // ===================================
+            // Projects
             const projectsGrid = document.querySelector('.projects-grid');
             projectsData.forEach(p => {
                 const card = document.createElement('div');
@@ -1398,34 +1481,55 @@
                 });
             });
 
+            // Certifications
             const certificationsGrid = document.querySelector('.certifications-grid');
+            certificationsGrid.innerHTML = ''; // Clear any fallback content
             certificationsData.forEach(c => {
-                certificationsGrid.innerHTML += `<details class="certification-item fade-in-up"><summary class="certification-summary"><span>${c.title}</span><span class="plus-minus"></span></summary><div class="certification-details"><p><strong>Issuer:</strong> ${c.issuer}</p><p><strong>Date:</strong> ${c.date}</p><p><a href="${c.url}" target="_blank">View Certificate</a></p></div></details>`;
+                const card = document.createElement('div');
+                card.className = 'certification-card fade-in-up';
+                card.innerHTML = `
+                    <div class="cert-header">
+                        <img src="${c.logo}" alt="${c.issuer} Logo" class="cert-logo">
+                        <span class="cert-issuer">${c.issuer}</span>
+                    </div>
+                    <h3 class="cert-title">${c.title}</h3>
+                    <p class="cert-date">Issued: ${c.date}</p>
+                    <a href="${c.url}" target="_blank" rel="noopener noreferrer" class="cert-verify-btn">
+                        Verify Credential <i class="fas fa-external-link-alt"></i>
+                    </a>
+                `;
+                certificationsGrid.appendChild(card);
             });
 
+
+            // Education
             const educationContainer = document.querySelector('.education-container');
             educationData.forEach(edu => {
                 const item = document.createElement('div');
                 item.className = 'education-item';
-
                 let dots = '';
-                if(edu.status === 'completed') {
+                if (edu.status === 'completed') {
                     dots = '<span class="dot ticked">';
-                } else if(edu.status === 'in-progress') {
+                } else if (edu.status === 'in-progress') {
                     dots = '<span class="dot dimming"></span>';
                 }
-
-                // This part is updated to include the institution name
                 item.innerHTML = `<div class="education-progress">${dots}</div><div class="education-info"><div class="education-level">${edu.level}</div><div class="education-institution">${edu.institution}</div></div>`;
                 educationContainer.appendChild(item);
             });
 
-            document.querySelector('.contact-form').innerHTML = `<input type="hidden" name="_next" value="https://samin-yasar.github.io/thanks.html"><input type="hidden" name="_captcha" value="true"><input type="hidden" name="_template" value="table"><input type="hidden" name="_autoresponse" value="Thank you for reaching out! 💙 I've received your message and will get back to you as soon as possible, inshaAllah! 😊"><input type="hidden" name="_blacklist" value="fuck,shit,asshole,spam,hack,scam,viagra"> <div class="form-group"><input type="text" name="name" required placeholder="Full Name"></div><div class="form-group"><input type="email" name="email" required placeholder="Email Address"></div><div class="form-group"><textarea name="message" rows="5" required placeholder="Your Message..."></textarea></div><div class="consent-group"><input type="checkbox" id="consent" required><label for="consent">I agree to the terms.</label></div><button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>`;
+            // Contact Form and Social Links
+            document.querySelector('.contact-form').innerHTML = `<input type="hidden" name="_next" value="https://samin-yasar.github.io/thanks.html"><input type="hidden" name="_captcha" value="true"><input type="hidden" name="_template" value="table"><input type="hidden" name="_autoresponse" value="Thank you for reaching out! 💙 I've received your message and will get back to you as soon as possible, inshaAllah! 😊"><input type="hidden" name="_blacklist" value="fuck,shit,asshole,spam,scam,viagra"><div class="form-group"><input type="text" name="name" required placeholder="Full Name"></div><div class="form-group"><input type="email" name="email" required placeholder="Email Address"></div><div class="form-group"><textarea name="message" rows="5" required placeholder="Your Message..."></textarea></div><div class="consent-group"><input type="checkbox" id="consent" required><label for="consent">I agree to the terms.</label></div><button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>`;
             document.querySelector('.social-links').innerHTML = `<a href="https://gravatar.com/saminyasar23" target="_blank" aria-label="Gravatar" title="Gravatar"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-1.326 0-2.4 1.074-2.4 2.4v8.4c0 1.324 1.074 2.398 2.4 2.398s2.4-1.074 2.4-2.398V5.21c2.795.99 4.799 3.654 4.799 6.789 0 3.975-3.225 7.199-7.199 7.199S4.801 15.975 4.801 12c0-1.989.805-3.789 2.108-5.091.938-.938.938-2.458 0-3.396s-2.458-.938-3.396 0C1.344 5.686 0 8.686 0 12c0 6.627 5.373 12 12 12s12-5.373 12-12S18.627 0 12 0" /></svg></a><a href="https://bsky.app/profile/samin-yasar.github.io" target="_blank" aria-label="Bluesky" title="Bluesky"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3.268 64 68.414"><path d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64-9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805zm36.254 0C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745z" /></svg></a><a rel="me" href="https://fosstodon.org/@Samin" target="_blank" aria-label="Mastodon" title="Mastodon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z" /></svg></a><a href="https://x.com/SaminYasar23" target="_blank" aria-label="X" title="X"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" /></svg></a><a href="https://github.com/samin-yasar" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a><a href="https://www.linkedin.com/in/samin-yasar23" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="mailto:samin.rash525@silomails.com" aria-label="Email"><i class="fas fa-envelope"></i></a>`;
-
+            
             // ===================================
-            // NEW: SEARCH LOGIC
+            // SEARCH LOGIC
             // ===================================
+            const searchToggleBtn = document.getElementById('search-toggle-btn');
+            const searchContainer = document.querySelector('.search-container');
+            const searchCloseBtn = document.getElementById('search-close-btn');
+            const searchBox = document.getElementById('search-box');
+            const searchResults = document.getElementById('search-results');
+            
             const searchableData = [
                 { title: 'Home', description: 'Main landing page', type: 'Section', url: '#home' },
                 { title: 'About Me', description: 'Information about who I am, my passions, and interests.', type: 'Section', url: '#about' },
@@ -1434,13 +1538,24 @@
                 { title: 'Awards & Certifications', description: 'My professional awards and certifications.', type: 'Section', url: '#certifications' },
                 { title: 'Education', description: 'My educational background from NCTB curriculum.', type: 'Section', url: '#education' },
                 { title: 'Contact Me', description: 'Get in touch or work together.', type: 'Section', url: '#contact' },
-                ...projectsData.map(p => ({ title: p.title, description: p.desc, type: 'Project', url: '#projects' })),
-                ...certificationsData.map(c => ({ title: c.title, description: `Issued by ${c.issuer}`, type: 'Certification', url: '#certifications' })),
+                ...projectsData.map(p => ({ title: p.title, description: p.desc, type: 'Project', url: p.url })),
+                ...certificationsData.map(c => ({ title: c.title, description: `Issued by ${c.issuer}`, type: 'Certification', url: c.url })),
                 ...educationData.map(e => ({ title: e.level, description: 'NCTB Curriculum', type: 'Education', url: '#education' }))
             ];
 
-            const searchBox = document.getElementById('search-box');
-            const searchResults = document.getElementById('search-results');
+            function openSearch() {
+                searchContainer.classList.add('active');
+                searchBox.focus();
+            }
+
+            function closeSearch() {
+                searchContainer.classList.remove('active');
+                searchBox.value = '';
+                searchResults.innerHTML = '';
+            }
+
+            searchToggleBtn.addEventListener('click', openSearch);
+            searchCloseBtn.addEventListener('click', closeSearch);
 
             searchBox.addEventListener('input', (e) => {
                 const query = e.target.value.toLowerCase();
@@ -1452,7 +1567,6 @@
                     item.title.toLowerCase().includes(query) ||
                     item.description.toLowerCase().includes(query)
                 );
-
                 displayResults(results);
             });
 
@@ -1461,22 +1575,30 @@
                     searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
                     return;
                 }
-
                 const html = results.map(item => `
-                    <a href="${item.url}" class="search-result-item" onclick="document.getElementById('search-results').innerHTML = ''">
+                    <a href="${item.url}" class="search-result-item" target="${item.type === 'Project' || item.type === 'Certification' ? '_blank' : '_self'}" onclick="closeSearch()">
                         ${item.title}
                         <small>${item.type}: ${item.description}</small>
                     </a>
                 `).join('');
-
                 searchResults.innerHTML = html;
             }
 
             document.addEventListener('click', (e) => {
-                if (!searchBox.contains(e.target)) {
-                    searchResults.innerHTML = '';
+                if (!searchContainer.contains(e.target) && e.target !== searchToggleBtn && !searchToggleBtn.contains(e.target) ) {
+                    if (searchContainer.classList.contains('active')) {
+                       // Optional: close if clicking outside
+                       // closeSearch();
+                    }
                 }
             });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && searchContainer.classList.contains('active')) {
+                    closeSearch();
+                }
+            });
+
 
             // ===================================
             // MOBILE NAVIGATION
