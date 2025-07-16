@@ -26,8 +26,17 @@
     <link rel="apple-touch-icon"
         href="https://www.gravatar.com/avatar/be8aac9579fc3b7b485abb1396112cc2?s=180&d=identicon&r=g">
 
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" as="style">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </noscript>
 
     <style>
         /* ========================================
@@ -55,7 +64,6 @@
             --red-error: #f43f5e;
             /* Rose 500 */
             --font-size: 16px;
-            /* Base font size for accessibility control */
         }
 
         *,
@@ -80,10 +88,14 @@
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
+        h1, h2, h3, .section-title, .logo, .hero h1, .cert-title, .education-level {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
         #page-wrapper {
             transition: filter 0.5s ease;
         }
-        
+
         /*
         ========================================
         Accessibility Styles
@@ -104,7 +116,7 @@
             filter: invert(100%);
             /* Double-invert images to look normal */
         }
-        
+
         body.accessibility-big-cursor {
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="font-size: 24px;"><text y="24">▲</text></svg>') 16 16, auto;
         }
@@ -253,6 +265,7 @@
             padding: 0.5rem;
             transition: color 0.3s ease;
         }
+
         #search-toggle-btn:hover {
             color: var(--accent);
         }
@@ -391,13 +404,13 @@
             color: var(--light);
             transition: all 0.3s ease;
         }
-        
+
         .search-container #search-box:focus {
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 20px rgba(20, 184, 166, 0.5);
         }
-        
+
         #search-close-btn {
             position: absolute;
             top: 2rem;
@@ -410,6 +423,7 @@
             line-height: 1;
             transition: color 0.3s ease, transform 0.3s ease;
         }
+
         #search-close-btn:hover {
             color: var(--accent);
             transform: rotate(90deg);
@@ -468,6 +482,7 @@
             text-align: center;
             padding: 8rem 1rem 2rem;
             overflow: hidden;
+            background: transparent; /* Ensure canvas shows through */
         }
 
         .hero-content {
@@ -600,6 +615,7 @@
             position: relative;
             z-index: 5;
             padding: 6rem 1rem;
+            background: transparent; /* Ensure canvas shows through all sections */
         }
 
         .container {
@@ -650,8 +666,7 @@
         ========================================
         */
         .projects {
-            background: radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.1), transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(20, 184, 166, 0.1), transparent 40%);
+            background: transparent;
         }
 
         .projects-grid {
@@ -723,7 +738,7 @@
         ========================================
         */
         .certifications {
-            background: var(--dark-lighter);
+            background: transparent;
         }
 
         .certifications-grid {
@@ -777,7 +792,8 @@
             font-weight: 700;
             color: var(--light);
             line-height: 1.4;
-            flex-grow: 1; /* Makes card bodies equal height */
+            flex-grow: 1;
+            /* Makes card bodies equal height */
             margin-bottom: 1rem;
         }
 
@@ -788,7 +804,8 @@
         }
 
         .cert-verify-btn {
-            margin-top: auto; /* Pushes button to the bottom */
+            margin-top: auto;
+            /* Pushes button to the bottom */
             padding: 0.8rem 1.5rem;
             border-radius: 8px;
             font-size: 0.9rem;
@@ -802,15 +819,18 @@
             border: 2px solid var(--accent);
             color: var(--accent);
             transition: all 0.3s ease;
-            text-transform: none; /* Override general .btn styles if needed */
+            text-transform: none;
+            /* Override general .btn styles if needed */
             letter-spacing: normal;
         }
 
         .cert-verify-btn:hover {
             background-color: var(--accent);
             color: var(--dark);
-            transform: none; /* Override general .btn hover */
-            box-shadow: none; /* Override general .btn hover */
+            transform: none;
+            /* Override general .btn hover */
+            box-shadow: none;
+            /* Override general .btn hover */
         }
 
         /*
@@ -819,7 +839,7 @@
         ========================================
         */
         .education {
-            background: var(--dark);
+            background: transparent;
         }
 
         .education-info {
@@ -919,8 +939,11 @@
         */
         footer {
             padding: 4rem 1rem 2rem;
-            background: var(--dark-lighter);
+            background: transparent; /* Ensure canvas shows through footer */
             text-align: center;
+            border-top: 1px solid rgba(79, 70, 229, 0.2); /* Add a separator */
+            position: relative;
+            z-index: 5;
         }
 
         .social-links a {
@@ -1069,8 +1092,7 @@
 
         /* Other required styles */
         .about {
-            padding: 6rem 1rem;
-            background: rgba(30, 41, 59, 0.3);
+            background: transparent;
         }
 
         .about-content {
@@ -1080,10 +1102,15 @@
             color: var(--gray-light);
             font-size: 1.2rem;
             line-height: 1.8;
+            background: rgba(30, 41, 59, 0.5); /* Add subtle background to content for readability */
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
         }
 
         .stats {
             padding: 6rem 1rem;
+            background: transparent;
         }
 
         .github-stats {
@@ -1108,6 +1135,7 @@
         .contact {
             padding: 6rem 1rem;
             text-align: center;
+            background: transparent;
         }
 
         .contact-form {
@@ -1165,7 +1193,7 @@
                 display: none;
             }
         }
-        
+
         @media (max-width: 992px) {
             .nav-links {
                 display: none;
@@ -1218,8 +1246,8 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#projects">Projects</a></li>
-                    <li><a href="#certifications">Certifications</a></li>
                     <li><a href="#education">Education</a></li>
+                    <li><a href="#certifications">Certifications</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
                 <div class="header-actions">
@@ -1243,8 +1271,8 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
-                <li><a href="#certifications">Certifications</a></li>
                 <li><a href="#education">Education</a></li>
+                <li><a href="#certifications">Certifications</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -1268,7 +1296,8 @@
                 <div class="container">
                     <h2 class="section-title">Who I Am</h2>
                     <div class="about-content">
-                        <p>I thrive on adventure—whether it's exploring new places, cycling through unknown paths, or diving
+                        <p>I thrive on adventure—whether it's exploring new places, cycling through unknown paths, or
+                            diving
                             into tech trends. My passions span photography, gaming, digital security, media, and AI. I'm
                             deeply committed to climate awareness and charity, and my love for anime keeps me dreaming
                             beyond borders. 🌌💙</p>
@@ -1372,25 +1401,67 @@
             const canvas = document.getElementById('canvas-background');
             const ctx = canvas.getContext('2d');
             let particles = [];
+            
+            // --- MOUSE TRACKING ---
+            let mouse = {
+                x: null,
+                y: null,
+                radius: 150 // Area of influence around the cursor
+            };
+
+            window.addEventListener('mousemove', (event) => {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+
+            window.addEventListener('mouseout', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
 
             function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
             resizeCanvas();
 
             class Particle {
                 constructor() {
-                    this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
-                    this.size = Math.random() * 2 + 1; this.speedX = Math.random() * 2 - 1;
-                    this.speedY = Math.random() * 2 - 1; this.color = `hsl(${Math.random() * 60 + 180}, 100%, 70%)`;
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1;
+                    this.baseSize = this.size; // Store original size
+                    this.speedX = Math.random() * 2 - 1;
+                    this.speedY = Math.random() * 2 - 1;
+                    this.color = `hsl(${Math.random() * 60 + 180}, 100%, 70%)`;
                 }
                 update() {
-                    this.x += this.speedX; this.y += this.speedY;
-                    if (this.size > 0.1) this.size -= 0.02;
-                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                    // --- INTERACTION LOGIC ---
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    // If mouse is close, move particle towards it
+                    if (distance < mouse.radius) {
+                        // The closer the particle, the faster it moves
+                        const forceDirectionX = dx / distance;
+                        const forceDirectionY = dy / distance;
+                        const force = (mouse.radius - distance) / mouse.radius;
+                        this.x += forceDirectionX * force * 5;
+                        this.y += forceDirectionY * force * 5;
+                    } else {
+                        // Otherwise, continue its normal path
+                        this.x += this.speedX;
+                        this.y += this.speedY;
+
+                        // Bounce off the screen edges
+                        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                    }
                 }
                 draw() {
-                    ctx.fillStyle = this.color; ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
                 }
             }
 
@@ -1404,7 +1475,10 @@
 
             function animateParticles() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < particles.length; i++) { particles[i].update(); particles[i].draw(); }
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
                 connectParticles();
                 requestAnimationFrame(animateParticles);
             }
@@ -1418,8 +1492,10 @@
                         if (distance < 100) {
                             opacityValue = 1 - (distance / 100);
                             ctx.strokeStyle = `rgba(14, 165, 233, ${opacityValue})`;
-                            ctx.lineWidth = 1; ctx.beginPath();
-                            ctx.moveTo(particles[a].x, particles[a].y); ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
                             ctx.stroke();
                         }
                     }
@@ -1454,7 +1530,7 @@
             ];
 
             const educationData = [
-                { level: "11th to 12th Grade", institution: "Pending...", status: "in-progress" },
+                { level: "11th to 12th Grade", institution: "Ongoing...", status: "in-progress" },
                 { level: "6th to 10th Grade", institution: "Rajuk Uttara Model College", status: "completed" },
                 { level: "Nursery to 5th Grade", institution: "Rajendrapur Cantonment Public School and College", status: "completed" },
             ];
@@ -1518,9 +1594,9 @@
             });
 
             // Contact Form and Social Links
-            document.querySelector('.contact-form').innerHTML = `<input type="hidden" name="_next" value="https://samin-yasar.github.io/thanks.html"><input type="hidden" name="_captcha" value="true"><input type="hidden" name="_template" value="table"><input type="hidden" name="_autoresponse" value="Thank you for reaching out! 💙 I've received your message and will get back to you as soon as possible, inshaAllah! 😊"><input type="hidden" name="_blacklist" value="fuck,shit,asshole,spam,scam,viagra"><div class="form-group"><input type="text" name="name" required placeholder="Full Name"></div><div class="form-group"><input type="email" name="email" required placeholder="Email Address"></div><div class="form-group"><textarea name="message" rows="5" required placeholder="Your Message..."></textarea></div><div class="consent-group"><input type="checkbox" id="consent" required><label for="consent">I agree to the terms.</label></div><button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>`;
+            document.querySelector('.contact-form').innerHTML = `<input type="hidden" name="_next" value="https://samin-yasar.github.io/thanks.html"><input type="hidden" name="_captcha" value="true"><input type="hidden" name="_template" value="table"><input type="hidden" name="_autoresponse" value="Thank you for reaching out! 💙 I've received your message and will get back to you as soon as possible, inshaAllah! 😊"><input type="hidden" name="_blacklist" value="fuck,shit,asshole,spam,hack,scam,viagra"> <div class="form-group"><input type="text" name="name" required placeholder="Full Name"></div><div class="form-group"><input type="email" name="email" required placeholder="Email Address"></div><div class="form-group"><textarea name="message" rows="5" required placeholder="Your Message..."></textarea></div><div class="consent-group"><input type="checkbox" id="consent" required><label for="consent">I agree to the terms.</label></div><button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>`;
             document.querySelector('.social-links').innerHTML = `<a href="https://gravatar.com/saminyasar23" target="_blank" aria-label="Gravatar" title="Gravatar"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-1.326 0-2.4 1.074-2.4 2.4v8.4c0 1.324 1.074 2.398 2.4 2.398s2.4-1.074 2.4-2.398V5.21c2.795.99 4.799 3.654 4.799 6.789 0 3.975-3.225 7.199-7.199 7.199S4.801 15.975 4.801 12c0-1.989.805-3.789 2.108-5.091.938-.938.938-2.458 0-3.396s-2.458-.938-3.396 0C1.344 5.686 0 8.686 0 12c0 6.627 5.373 12 12 12s12-5.373 12-12S18.627 0 12 0" /></svg></a><a href="https://bsky.app/profile/samin-yasar.github.io" target="_blank" aria-label="Bluesky" title="Bluesky"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3.268 64 68.414"><path d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64-9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805zm36.254 0C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745z" /></svg></a><a rel="me" href="https://fosstodon.org/@Samin" target="_blank" aria-label="Mastodon" title="Mastodon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z" /></svg></a><a href="https://x.com/SaminYasar23" target="_blank" aria-label="X" title="X"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" /></svg></a><a href="https://github.com/samin-yasar" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a><a href="https://www.linkedin.com/in/samin-yasar23" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="mailto:samin.rash525@silomails.com" aria-label="Email"><i class="fas fa-envelope"></i></a>`;
-            
+
             // ===================================
             // SEARCH LOGIC
             // ===================================
@@ -1529,7 +1605,7 @@
             const searchCloseBtn = document.getElementById('search-close-btn');
             const searchBox = document.getElementById('search-box');
             const searchResults = document.getElementById('search-results');
-            
+
             const searchableData = [
                 { title: 'Home', description: 'Main landing page', type: 'Section', url: '#home' },
                 { title: 'About Me', description: 'Information about who I am, my passions, and interests.', type: 'Section', url: '#about' },
@@ -1585,14 +1661,14 @@
             }
 
             document.addEventListener('click', (e) => {
-                if (!searchContainer.contains(e.target) && e.target !== searchToggleBtn && !searchToggleBtn.contains(e.target) ) {
+                if (!searchContainer.contains(e.target) && e.target !== searchToggleBtn && !searchToggleBtn.contains(e.target)) {
                     if (searchContainer.classList.contains('active')) {
-                       // Optional: close if clicking outside
-                       // closeSearch();
+                        // Optional: close if clicking outside
+                        // closeSearch();
                     }
                 }
             });
-            
+
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && searchContainer.classList.contains('active')) {
                     closeSearch();
