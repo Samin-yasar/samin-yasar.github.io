@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { title: "Microsoft 365 Fundamentals Specialization", issuer: "Microsoft", date: "Nov 2024", url: "https://www.coursera.org/verify/specialization/RP0FVBSWQJJ5", logo: "assets/vectors/Microsoft_logo.svg" },
         { title: "Work Smarter with Microsoft Word (with Honor)", issuer: "Microsoft", date: "Apr 2024", url: "https://www.coursera.org/verify/X5ZSJ6L5NM8L", logo: "assets/vectors/Microsoft_logo.svg" },
         { title: "English for Media Literacy", issuer: "University of Pennsylvania", date: "Apr 2024", url: "https://www.coursera.org/verify/H6FCNWXPAPFQ", logo: "assets/vectors/Shield_of_the_University_of_Pennsylvania.svg" },
-        { title: "Bronze Award", issuer: "The iDEA Award", date: "Oct 2024", url: "https://idea.org.uk/roa/PA5USO6JZX", logo: "assets/idea-blue.svg" },
+        { title: "Bronze Award", issuer: "The iDEA Award", date: "Oct 2024", url: "https://idea.org.uk/roa/PA5USO6JZX", logo: "assets/vectors/idea-blue.svg" },
         { title: "Disaster Preparedness", issuer: "University of Pittsburgh", date: "Nov 2024", url: "https://www.coursera.org/verify/YY6RWMHJ8AWA", logo: "assets/vectors/University_of_Pittsburgh_seal.svg" },
         { title: "Intellectual Property Law Specialization", issuer: "University of Pennsylvania", date: "Nov 2024", url: "https://www.coursera.org/verify/specialization/HA87JBJSHE83", logo: "assets/vectors/Shield_of_the_University_of_Pennsylvania.svg" },
     ];
