@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Ensure all images have the loading="lazy" attribute
+    document.querySelectorAll('img:not([loading])').forEach(img => {
+        img.setAttribute('loading', 'lazy');
+    });
 
     // ===================================
     // VIBRANT CANVAS BACKGROUND
@@ -6,12 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('canvas-background');
     const ctx = canvas.getContext('2d');
     let particles = [];
-    
+
     // --- MOUSE TRACKING ---
     let mouse = {
         x: null,
         y: null,
-        radius: 150 
+        radius: 150
     };
 
     window.addEventListener('mousemove', (event) => {
@@ -25,7 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    function resizeCanvas() {
+        if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+    }
     resizeCanvas();
 
     class Particle {
@@ -70,13 +79,116 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // CORRECTED: Moved Quadtree class definition before it is used.
+    class Quadtree {
+        constructor(boundary, capacity) {
+            this.boundary = boundary; // { x, y, width, height }
+            this.capacity = capacity; // Maximum particles per node
+            this.particles = [];
+            this.divided = false;
+        }
+
+        subdivide() {
+            const { x, y, width, height } = this.boundary;
+            const halfWidth = width / 2;
+            const halfHeight = height / 2;
+
+            this.northeast = new Quadtree({ x: x + halfWidth, y: y, width: halfWidth, height: halfHeight }, this.capacity);
+            this.northwest = new Quadtree({ x, y, width: halfWidth, height: halfHeight }, this.capacity);
+            this.southeast = new Quadtree({ x: x + halfWidth, y: y + halfHeight, width: halfWidth, height: halfHeight }, this.capacity);
+            this.southwest = new Quadtree({ x, y: y + halfHeight, width: halfWidth, height: halfHeight }, this.capacity);
+            
+            this.divided = true;
+        }
+
+        insert(particle) {
+            const { x, y, width, height } = this.boundary;
+            if (particle.x < x || particle.x > x + width || particle.y < y || particle.y > y + height) {
+                return false;
+            }
+
+            if (this.particles.length < this.capacity) {
+                this.particles.push(particle);
+                return true;
+            }
+
+            if (!this.divided) {
+                this.subdivide();
+            }
+
+            return (
+                this.northeast.insert(particle) ||
+                this.northwest.insert(particle) ||
+                this.southeast.insert(particle) ||
+                this.southwest.insert(particle)
+            );
+        }
+
+        query(range, found = []) {
+            const { x, y, width, height } = this.boundary;
+            if (
+                range.x > x + width ||
+                range.x + range.width < x ||
+                range.y > y + height ||
+                range.y + range.height < y
+            ) {
+                return found;
+            }
+
+            for (const particle of this.particles) {
+                if (
+                    particle.x >= range.x &&
+                    particle.x <= range.x + range.width &&
+                    particle.y >= range.y &&
+                    particle.y <= range.y + range.height
+                ) {
+                    found.push(particle);
+                }
+            }
+
+            if (this.divided) {
+                this.northeast.query(range, found);
+                this.northwest.query(range, found);
+                this.southeast.query(range, found);
+                this.southwest.query(range, found);
+            }
+
+            return found;
+        }
+    }
+    
     function initParticles() {
         particles = [];
         let numberOfParticles = (canvas.width * canvas.height) / 9000;
         if (window.innerWidth < 768) numberOfParticles = (canvas.width * canvas.height) / 15000; // Comparatively fewer on mobile
         for (let i = 0; i < numberOfParticles; i++) particles.push(new Particle());
     }
-    initParticles();
+
+    function connectParticles() {
+        const quadtree = new Quadtree({ x: 0, y: 0, width: canvas.width, height: canvas.height }, 4);
+
+        particles.forEach(particle => quadtree.insert(particle));
+
+        particles.forEach(particle => {
+            const range = { x: particle.x - 100, y: particle.y - 100, width: 200, height: 200 };
+            const nearbyParticles = quadtree.query(range);
+
+            nearbyParticles.forEach(other => {
+                if (particle !== other) {
+                    const distance = Math.hypot(particle.x - other.x, particle.y - other.y);
+                    if (distance < 100) {
+                        const opacityValue = 1 - distance / 100;
+                        ctx.strokeStyle = `rgba(14, 165, 233, ${opacityValue})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particle.x, particle.y);
+                        ctx.lineTo(other.x, other.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+        });
+    }
 
     function animateParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -87,26 +199,19 @@ document.addEventListener('DOMContentLoaded', () => {
         connectParticles();
         requestAnimationFrame(animateParticles);
     }
+    
+    // Initialize and start the animation
+    initParticles();
     animateParticles();
 
-    function connectParticles() {
-        let opacityValue = 1;
-        for (let a = 0; a < particles.length; a++) {
-            for (let b = a; b < particles.length; b++) {
-                let distance = Math.hypot(particles[a].x - particles[b].x, particles[a].y - particles[b].y);
-                if (distance < 100) {
-                    opacityValue = 1 - (distance / 100);
-                    ctx.strokeStyle = `rgba(14, 165, 233, ${opacityValue})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[a].x, particles[a].y);
-                    ctx.lineTo(particles[b].x, particles[b].y);
-                    ctx.stroke();
-                }
-            }
-        }
-    }
-    window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            resizeCanvas();
+            initParticles();
+        }, 200); // Adjust the delay as needed
+    });
 
     // ===================================
     // DYNAMIC CONTENT DATA
@@ -122,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const certificationsData = [
         { title: "Prompt Engineering for ChatGPT", issuer: "Vanderbilt University", date: "Nov 2024", url: "https://coursera.org/verify/JX2HO91W37QA", logo: "assets/vectors/Vanderbilt_logo.svg" },
-        { title: "HTML, CSS, and Javascript for Web Developers", issuer: "Johns Hopkins University", date: "Nov 2024", url: "https://coursera.org/verify/CT64714MQNJ7", logo: "assets/vectors/Johns_Hopkins_University_Shield_Blue.svg" },
+        { title: "HTML, CSS, and JavaScript for Web Developers", issuer: "Johns Hopkins University", date: "Nov 2024", url: "https://coursera.org/verify/CT64714MQNJ7", logo: "assets/vectors/Johns_Hopkins_University_Shield_Blue.svg" },
         { title: "Responsive Web Design", issuer: "freeCodeCamp", date: "Sep 2023", url: "https://freecodecamp.org/certification/samin_yasar23/responsive-web-design", logo: "assets/vectors/freecodecamp.svg" },
         { title: "Ethical Hacker", issuer: "Cisco", date: "Oct 2024", url: "https://www.credly.com/badges/4e0cff81-a500-403c-8590-3ed7f4200637", logo: "assets/vectors/cisco.svg" },
         { title: "Code in Place", issuer: "Stanford University", date: "Jun 2024", url: "https://codeinplace.stanford.edu/cip4/certificate/q2enwj", logo: "assets/vectors/Seal_of_Leland_Stanford_Junior_University.svg" },
@@ -208,10 +313,38 @@ document.addEventListener('DOMContentLoaded', () => {
     if (contactForm) {
         contactForm.innerHTML = `<input type="hidden" name="_next" value="https://samin-yasar.github.io/thanks.html"><input type="hidden" name="_captcha" value="true"><input type="hidden" name="_template" value="table"><input type="hidden" name="_autoresponse" value="Thank you for reaching out! 💙 I've received your message and will get back to you as soon as possible, inshaAllah! 😊"><input type="hidden" name="_blacklist" value="fuck,shit,asshole,spam,hack,scam,viagra"> <div class="form-group"><input type="text" name="name" required placeholder="Full Name"></div><div class="form-group"><input type="email" name="email" required placeholder="Email Address"></div><div class="form-group"><textarea name="message" rows="5" required placeholder="Leave a paw-sitive message... 🐈"></textarea></div><div class="consent-group"><input type="checkbox" id="consent" required><label for="consent">I agree to the terms.</label></div><button type="submit" class="btn btn-primary">Meow Me! <i class="fas fa-paw"></i></button>`;
     }
-    
+
     const socialLinks = document.querySelector('.social-links');
     if (socialLinks) {
         socialLinks.innerHTML = `<a href="https://gravatar.com/saminyasar23" target="_blank" aria-label="Gravatar" title="Gravatar"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-1.326 0-2.4 1.074-2.4 2.4v8.4c0 1.324 1.074 2.398 2.4 2.398s2.4-1.074 2.4-2.398V5.21c2.795.99 4.799 3.654 4.799 6.789 0 3.975-3.225 7.199-7.199 7.199S4.801 15.975 4.801 12c0-1.989.805-3.789 2.108-5.091.938-.938.938-2.458 0-3.396s-2.458-.938-3.396 0C1.344 5.686 0 8.686 0 12c0 6.627 5.373 12 12 12s12-5.373 12-12S18.627 0 12 0" /></svg></a><a href="https://bsky.app/profile/samin-yasar.github.io" target="_blank" aria-label="Bluesky" title="Bluesky"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3.268 64 68.414"><path d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64-9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805zm36.254 0C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745z" /></svg></a><a rel="me" href="https://fosstodon.org/@Samin" target="_blank" aria-label="Mastodon" title="Mastodon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z" /></svg></a><a href="https://x.com/SaminYasar23" target="_blank" aria-label="X" title="X"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" /></svg></a><a href="https://github.com/samin-yasar" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a><a href="https://www.linkedin.com/in/samin-yasar23" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="mailto:samin.rash525@silomails.com" aria-label="Email"><i class="fas fa-envelope"></i></a>`;
+    }
+
+    const moreLink = document.getElementById('more-link');
+    const moreSubmenu = document.getElementById('more-submenu');
+    
+    if (moreLink && moreSubmenu) {
+        moreLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior
+            // Toggle the 'active' class on the submenu
+            moreSubmenu.classList.toggle('active');
+
+            // Optional: Close submenu if clicked outside
+            event.stopPropagation(); // Stop propagation to prevent immediate closing from document click
+        });
+
+        // Close the submenu if a click occurs anywhere else on the document
+        document.addEventListener('click', (event) => {
+            if (moreSubmenu.classList.contains('active') && !moreSubmenu.contains(event.target) && event.target !== moreLink) {
+                moreSubmenu.classList.remove('active');
+            }
+        });
+
+        // Optional: Close submenu if an item inside it is clicked
+        moreSubmenu.querySelectorAll('a').forEach(item => {
+            item.addEventListener('click', () => {
+                moreSubmenu.classList.remove('active');
+            });
+        });
     }
 
     // ===================================
@@ -284,6 +417,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeSearch();
             }
         });
+    }
+
+    const currentYearSpan = document.getElementById('current-year');
+    if (currentYearSpan) {
+        currentYearSpan.textContent = new Date().getFullYear();
     }
 
     // ===================================
@@ -367,6 +505,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         settingsBtn.addEventListener('click', () => { panel.classList.toggle('visible'); });
 
+        // Possible values for `data-access-action`:
+        // - "increase-font": Increases the font size.
+        // - "decrease-font": Decreases the font size.
+        // - "reset-font": Resets the font size to default.
+        // - "toggle-invert": Toggles inverted colors.
+        // - "toggle-big-cursor": Toggles a larger cursor.
+        // - "toggle-star-cursor": Toggles a star-shaped cursor.
+        // - "toggle-highlight-links": Highlights all links.
+        // - "toggle-reading-guide": Toggles a reading guide line.
+        // - "reset-all": Resets all accessibility settings to default.
         panel.addEventListener('click', (e) => {
             const target = e.target.closest('[data-access-action]');
             if (!target) return;
@@ -422,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Prothom Alo-Shikho Team",
             title: "",
             type: "none",
-            mediaUrl: "" 
+            mediaUrl: ""
         }
     ];
 
@@ -444,7 +592,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (testimonial.type === 'pdf' && testimonial.mediaUrl) {
                 mediaHtml = `<div class="testimonial-media"><a href="${testimonial.mediaUrl}" class="testimonial-doc-link" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-pdf"></i> View Letter (PDF)</a></div>`;
             }
-            
+
             slide.innerHTML = `
                 ${mediaHtml}
                 <blockquote>“${testimonial.text}”</blockquote>
@@ -478,7 +626,7 @@ document.addEventListener('DOMContentLoaded', () => {
             slides[currentSlide].classList.add('active');
             dots[currentSlide].classList.add('active');
         }
-        
+
         prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
         nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
     }
