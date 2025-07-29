@@ -188,6 +188,41 @@ nav {
     transform: scale(1.05) rotate(-3deg);
 }
 
+.nav-links .more-menu-item {
+    position: relative; /* For submenu positioning */
+}
+
+.nav-links .submenu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%; /* Position below the "More" link */
+    left: 0;
+    background-color: var(--header-bg-color, #1a202c); /* Use your theme's background color */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    min-width: 160px;
+    z-index: 1000; /* Ensure it appears above other content */
+    list-style: none; /* Remove bullet points */
+    padding: 10px 0;
+    margin: 0;
+    border-radius: 5px;
+}
+
+.nav-links .submenu li a {
+    color: var(--nav-link-color, #f8fafc); /* Use your theme's text color */
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.nav-links .submenu li a:hover {
+    background-color: var(--nav-link-hover-bg, #2d3748); 
+}
+
+.nav-links .submenu.active {
+    display: block;
+}
+
 .nav-links {
     display: flex;
     gap: 1.5rem;
@@ -202,6 +237,21 @@ nav {
     font-weight: 500;
     position: relative;
     transition: color 0.3s ease;
+}
+
+/* Media query to ensure these styles only apply on desktop */
+/* Adjust the breakpoint (e.g., 768px, 992px) based on your 'mobile-nav' breakpoint */
+@media (max-width: 767px) { /* Example: if your mobile nav shows below 768px */
+    .nav-links .more-menu-item {
+        display: none; /* Hide the 'More' button on small screens */
+    }
+}
+
+@media (min-width: 768px) { /* Example: apply on screens 768px and wider (desktop) */
+    /* Ensure the main nav-links are displayed on desktop */
+    .nav-links {
+        display: flex;
+    }
 }
 
 .nav-links a::after {
