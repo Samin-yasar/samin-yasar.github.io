@@ -220,65 +220,75 @@ document.addEventListener('DOMContentLoaded', () => {
     const musicToggleButton = document.getElementById('music-toggle-btn');
 
     if (musicPlayer && musicToggleButton) {
-        // This function will be called on the first user interaction to start the music,
-        // bypassing browser autoplay restrictions.
-        const playMusicOnFirstInteraction = () => {
-            if (musicPlayer.paused && localStorage.getItem('musicPreference') !== 'off') {
-                musicPlayer.play().then(() => {
-                    musicToggleButton.classList.add('active');
-                }).catch(error => {
-                    console.error("Music playback failed after user interaction:", error);
-                });
+        let isAttemptingPlayback = false; // Flag to prevent race conditions from rapid clicks
+
+        // A single, robust function to handle all playback logic
+        const togglePlayback = (event) => {
+            // If the click event comes from the button, stop it from bubbling up
+            // to the document and firing a second time.
+            if (event) {
+                event.stopPropagation();
             }
-            // Once interaction occurs, we don't need these listeners anymore.
-            document.removeEventListener('click', playMusicOnFirstInteraction);
-            document.removeEventListener('touchstart', playMusicOnFirstInteraction);
-        };
 
-        // Check the user's preference from previous visits.
-        const musicPreference = localStorage.getItem('musicPreference');
+            // The first interaction has occurred, so remove the general listeners.
+            document.removeEventListener('click', togglePlayback);
+            document.removeEventListener('touchstart', togglePlayback);
 
-        if (musicPreference === 'off') {
-            // If the user previously turned music off, keep it off.
-            musicPlayer.pause();
-            musicToggleButton.classList.remove('active');
-        } else {
-            // Otherwise, attempt to play the music.
-            const playPromise = musicPlayer.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    // Autoplay was successful.
-                    musicToggleButton.classList.add('active');
-                    localStorage.setItem('musicPreference', 'on');
-                }).catch(error => {
-                    // Autoplay was blocked by the browser.
-                    // We'll wait for the user to click or touch anywhere on the page.
-                    console.warn("Autoplay was prevented. Waiting for user interaction to play music.");
-                    musicToggleButton.classList.remove('active'); // Show music as 'off' until it plays.
-                    document.addEventListener('click', playMusicOnFirstInteraction);
-                    document.addEventListener('touchstart', playMusicOnFirstInteraction);
-                });
-            }
-        }
-
-        // Add event listener for the toggle button itself.
-        musicToggleButton.addEventListener('click', () => {
-            // If the user clicks the button, it counts as an interaction.
-            document.removeEventListener('click', playMusicOnFirstInteraction);
-            document.removeEventListener('touchstart', playMusicOnFirstInteraction);
+            // If a play action is already in progress, do nothing.
+            if (isAttemptingPlayback) return;
 
             if (musicPlayer.paused) {
-                musicPlayer.play();
-                localStorage.setItem('musicPreference', 'on');
-                musicToggleButton.classList.add('active');
-                console.log("Music turned ON.");
+                isAttemptingPlayback = true;
+                const playPromise = musicPlayer.play();
+
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // Success
+                        localStorage.setItem('musicPreference', 'on');
+                        musicToggleButton.classList.add('active');
+                        console.log("Music turned ON.");
+                    }).catch(error => {
+                        // The AbortError is expected if the user toggles off quickly. We can safely ignore it.
+                        if (error.name !== 'AbortError') {
+                            console.error("Music playback failed:", error);
+                        }
+                        musicToggleButton.classList.remove('active');
+                    }).finally(() => {
+                        // Reset the flag once the play attempt is complete.
+                        isAttemptingPlayback = false;
+                    });
+                }
             } else {
                 musicPlayer.pause();
                 localStorage.setItem('musicPreference', 'off');
                 musicToggleButton.classList.remove('active');
                 console.log("Music turned OFF.");
             }
-        });
+        };
+
+        const musicPreference = localStorage.getItem('musicPreference');
+
+        if (musicPreference === 'off') {
+            musicToggleButton.classList.remove('active');
+        } else {
+            // Try to autoplay. If it fails, set up the one-time interaction listeners.
+            isAttemptingPlayback = true;
+            musicPlayer.play().then(() => {
+                musicToggleButton.classList.add('active');
+                localStorage.setItem('musicPreference', 'on');
+            }).catch(() => {
+                // Autoplay failed. Wait for user interaction.
+                console.warn("Autoplay was prevented. Waiting for user interaction to play music.");
+                musicToggleButton.classList.remove('active');
+                document.addEventListener('click', togglePlayback);
+                document.addEventListener('touchstart', togglePlayback);
+            }).finally(() => {
+                isAttemptingPlayback = false;
+            });
+        }
+
+        // The button listener now simply calls our centralized function.
+        musicToggleButton.addEventListener('click', togglePlayback);
     }
 
 
