@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.northwest = new Quadtree({ x, y, width: halfWidth, height: halfHeight }, this.capacity);
             this.southeast = new Quadtree({ x: x + halfWidth, y: y + halfHeight, width: halfWidth, height: halfHeight }, this.capacity);
             this.southwest = new Quadtree({ x, y: y + halfHeight, width: halfWidth, height: halfHeight }, this.capacity);
-            
+
             this.divided = true;
         }
 
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return found;
         }
     }
-    
+
     function initParticles() {
         particles = [];
         let numberOfParticles = (canvas.width * canvas.height) / 9000;
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         connectParticles();
         requestAnimationFrame(animateParticles);
     }
-    
+
     // Initialize and start the animation
     initParticles();
     animateParticles();
@@ -212,6 +212,75 @@ document.addEventListener('DOMContentLoaded', () => {
             initParticles();
         }, 200); // Adjust the delay as needed
     });
+
+    // ===================================
+    // BACKGROUND MUSIC TOGGLE
+    // ===================================
+    const musicPlayer = document.getElementById('background-music');
+    const musicToggleButton = document.getElementById('music-toggle-btn');
+
+    if (musicPlayer && musicToggleButton) {
+        // This function will be called on the first user interaction to start the music,
+        // bypassing browser autoplay restrictions.
+        const playMusicOnFirstInteraction = () => {
+            if (musicPlayer.paused && localStorage.getItem('musicPreference') !== 'off') {
+                musicPlayer.play().then(() => {
+                    musicToggleButton.classList.add('active');
+                }).catch(error => {
+                    console.error("Music playback failed after user interaction:", error);
+                });
+            }
+            // Once interaction occurs, we don't need these listeners anymore.
+            document.removeEventListener('click', playMusicOnFirstInteraction);
+            document.removeEventListener('touchstart', playMusicOnFirstInteraction);
+        };
+
+        // Check the user's preference from previous visits.
+        const musicPreference = localStorage.getItem('musicPreference');
+
+        if (musicPreference === 'off') {
+            // If the user previously turned music off, keep it off.
+            musicPlayer.pause();
+            musicToggleButton.classList.remove('active');
+        } else {
+            // Otherwise, attempt to play the music.
+            const playPromise = musicPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Autoplay was successful.
+                    musicToggleButton.classList.add('active');
+                    localStorage.setItem('musicPreference', 'on');
+                }).catch(error => {
+                    // Autoplay was blocked by the browser.
+                    // We'll wait for the user to click or touch anywhere on the page.
+                    console.warn("Autoplay was prevented. Waiting for user interaction to play music.");
+                    musicToggleButton.classList.remove('active'); // Show music as 'off' until it plays.
+                    document.addEventListener('click', playMusicOnFirstInteraction);
+                    document.addEventListener('touchstart', playMusicOnFirstInteraction);
+                });
+            }
+        }
+
+        // Add event listener for the toggle button itself.
+        musicToggleButton.addEventListener('click', () => {
+            // If the user clicks the button, it counts as an interaction.
+            document.removeEventListener('click', playMusicOnFirstInteraction);
+            document.removeEventListener('touchstart', playMusicOnFirstInteraction);
+
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+                localStorage.setItem('musicPreference', 'on');
+                musicToggleButton.classList.add('active');
+                console.log("Music turned ON.");
+            } else {
+                musicPlayer.pause();
+                localStorage.setItem('musicPreference', 'off');
+                musicToggleButton.classList.remove('active');
+                console.log("Music turned OFF.");
+            }
+        });
+    }
+
 
     // ===================================
     // DYNAMIC CONTENT DATA
@@ -237,6 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { title: "Bronze Award", issuer: "The iDEA Award", date: "Oct 2024", url: "https://idea.org.uk/roa/PA5USO6JZX", logo: "assets/vectors/idea-blue.svg" },
         { title: "Disaster Preparedness", issuer: "University of Pittsburgh", date: "Nov 2024", url: "https://www.coursera.org/verify/YY6RWMHJ8AWA", logo: "assets/vectors/University_of_Pittsburgh_seal.svg" },
         { title: "Intellectual Property Law Specialization", issuer: "University of Pennsylvania", date: "Nov 2024", url: "https://www.coursera.org/verify/specialization/HA87JBJSHE83", logo: "assets/vectors/Shield_of_the_University_of_Pennsylvania.svg" },
+        { title: "English for Journalism", issuer: "University of Pennsylvania", date: "Sep 2024", url: "https://badgr.com/public/assertions/VZCoV2XqSNWF2aAQCmEzHw", logo: "assets/vectors/Shield_of_the_University_of_Pennsylvania.svg" }
     ];
 
     const educationData = [
@@ -321,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const moreLink = document.getElementById('more-link');
     const moreSubmenu = document.getElementById('more-submenu');
-    
+
     if (moreLink && moreSubmenu) {
         moreLink.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent default link behavior
