@@ -214,27 +214,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===================================
-    // BACKGROUND MUSIC TOGGLE
+    // BACKGROUND MUSIC TOGGLE - FIXED VERSION
     // ===================================
     const musicPlayer = document.getElementById('background-music');
     const musicToggleButton = document.getElementById('music-toggle-btn');
 
     if (musicPlayer && musicToggleButton) {
-        let isAttemptingPlayback = false; // Flag to prevent race conditions from rapid clicks
+        let isAttemptingPlayback = false;
+        let hasUserInteracted = false; 
 
-        // A single, robust function to handle all playback logic
+        // Single function to handle playback
         const togglePlayback = (event) => {
-            // If the click event comes from the button, stop it from bubbling up
-            // to the document and firing a second time.
             if (event) {
                 event.stopPropagation();
             }
 
-            // The first interaction has occurred, so remove the general listeners.
-            document.removeEventListener('click', togglePlayback);
-            document.removeEventListener('touchstart', togglePlayback);
-
-            // If a play action is already in progress, do nothing.
             if (isAttemptingPlayback) return;
 
             if (musicPlayer.paused) {
@@ -243,18 +237,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
-                        // Success
                         localStorage.setItem('musicPreference', 'on');
                         musicToggleButton.classList.add('active');
                         console.log("Music turned ON.");
                     }).catch(error => {
-                        // The AbortError is expected if the user toggles off quickly. We can safely ignore it.
                         if (error.name !== 'AbortError') {
                             console.error("Music playback failed:", error);
                         }
                         musicToggleButton.classList.remove('active');
                     }).finally(() => {
-                        // Reset the flag once the play attempt is complete.
                         isAttemptingPlayback = false;
                     });
                 }
@@ -266,29 +257,70 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
+        // ONE-TIME interaction handler that only enables music if preference allows
+        const handleFirstInteraction = (event) => {
+            if (hasUserInteracted) return;
+            hasUserInteracted = true;
+
+            document.removeEventListener('click', handleFirstInteraction, { passive: true });
+            document.removeEventListener('touchstart', handleFirstInteraction, { passive: true });
+
+            // Only auto-play if user preference is not explicitly 'off'
+            const musicPreference = localStorage.getItem('musicPreference');
+            if (musicPreference !== 'off') {
+                if (musicPlayer.paused) {
+                    isAttemptingPlayback = true;
+                    musicPlayer.play().then(() => {
+                        localStorage.setItem('musicPreference', 'on');
+                        musicToggleButton.classList.add('active');
+                        console.log("Music auto-started after user interaction.");
+                    }).catch(error => {
+                        console.warn("Auto-play after interaction failed:", error);
+                        musicToggleButton.classList.remove('active');
+                    }).finally(() => {
+                        isAttemptingPlayback = false;
+                    });
+                }
+            }
+        };
+
+        // Initialize based on stored preference
         const musicPreference = localStorage.getItem('musicPreference');
 
         if (musicPreference === 'off') {
+            // User explicitly disabled music
             musicToggleButton.classList.remove('active');
         } else {
-            // Try to autoplay. If it fails, set up the one-time interaction listeners.
+            // Try autoplay first (will likely fail due to browser policies)
             isAttemptingPlayback = true;
             musicPlayer.play().then(() => {
                 musicToggleButton.classList.add('active');
                 localStorage.setItem('musicPreference', 'on');
+                hasUserInteracted = true; // Consider this a successful interaction
+                console.log("Music auto-started successfully.");
             }).catch(() => {
-                // Autoplay failed. Wait for user interaction.
-                console.warn("Autoplay was prevented. Waiting for user interaction to play music.");
+                // Autoplay failed - set up one-time interaction listeners
+                console.log("Autoplay blocked. Waiting for user interaction.");
                 musicToggleButton.classList.remove('active');
-                document.addEventListener('click', togglePlayback);
-                document.addEventListener('touchstart', togglePlayback);
+
+                // Use passive listeners and add them only once
+                document.addEventListener('click', handleFirstInteraction, { passive: true, once: true });
+                document.addEventListener('touchstart', handleFirstInteraction, { passive: true, once: true });
             }).finally(() => {
                 isAttemptingPlayback = false;
             });
         }
 
-        // The button listener now simply calls our centralized function.
-        musicToggleButton.addEventListener('click', togglePlayback);
+        // Button click handler - always allow manual toggle
+        musicToggleButton.addEventListener('click', (event) => {
+            hasUserInteracted = true; // Mark that user has interacted
+
+            // Remove the auto-start listeners if they're still active
+            document.removeEventListener('click', handleFirstInteraction, { passive: true });
+            document.removeEventListener('touchstart', handleFirstInteraction, { passive: true });
+
+            togglePlayback(event);
+        });
     }
 
 
