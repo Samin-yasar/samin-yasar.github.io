@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Ensure all images have the loading="lazy" attribute
     document.querySelectorAll('img:not([loading])').forEach(img => {
         img.setAttribute('loading', 'lazy');
     });
@@ -213,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===================================
-    // BACKGROUND MUSIC TOGGLE 
+    // BACKGROUND MUSIC TOGGLE - IMMEDIATE INTERACTION RESPONSE
     // ===================================
     const musicPlayer = document.getElementById('background-music');
     const musicToggleButton = document.getElementById('music-toggle-btn');
@@ -223,121 +224,151 @@ document.addEventListener('DOMContentLoaded', () => {
         let userHasInteracted = false;
         let autoplayFailed = false;
 
-        // Main toggle function
-        const toggleMusic = async () => {
+        // Main toggle function - synchronous play attempt
+        const toggleMusic = () => {
             if (isAttemptingPlayback) return;
 
-            try {
-                if (musicPlayer.paused) {
-                    isAttemptingPlayback = true;
-                    await musicPlayer.play();
-                    localStorage.setItem('musicPreference', 'on');
-                    musicToggleButton.classList.add('active');
-                    console.log("Music turned ON.");
+            if (musicPlayer.paused) {
+                isAttemptingPlayback = true;
+
+                // Immediate synchronous play attempt
+                const playPromise = musicPlayer.play();
+
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        localStorage.setItem('musicPreference', 'on');
+                        musicToggleButton.classList.add('active');
+                        console.log("Music turned ON.");
+                    }).catch(error => {
+                        console.error("Music play failed:", error);
+                        localStorage.setItem('musicPreference', 'off');
+                        musicToggleButton.classList.remove('active');
+                    }).finally(() => {
+                        isAttemptingPlayback = false;
+                    });
                 } else {
-                    musicPlayer.pause();
-                    localStorage.setItem('musicPreference', 'off');
-                    musicToggleButton.classList.remove('active');
-                    console.log("Music turned OFF.");
+                    isAttemptingPlayback = false;
                 }
-            } catch (error) {
-                console.error("Music toggle failed:", error);
+            } else {
+                musicPlayer.pause();
                 localStorage.setItem('musicPreference', 'off');
                 musicToggleButton.classList.remove('active');
-            } finally {
-                isAttemptingPlayback = false;
+                console.log("Music turned OFF.");
             }
         };
 
-        // Handle user interaction for enabling music
-        const handleUserInteraction = async (event) => {
+        // Handle user interaction - IMMEDIATE music enable
+        const handleUserInteraction = (event) => {
             if (userHasInteracted) return;
 
-            console.log("User interaction detected:", event.type);
+            console.log("First user interaction detected:", event.type);
             userHasInteracted = true;
 
-            // Clean up listeners
+            // Remove listeners immediately
             document.removeEventListener('click', handleUserInteraction, true);
             document.removeEventListener('touchstart', handleUserInteraction, true);
             document.removeEventListener('touchend', handleUserInteraction, true);
             document.removeEventListener('mousedown', handleUserInteraction, true);
             document.removeEventListener('keydown', handleUserInteraction, true);
 
-            // Only auto-enable if preference allows and autoplay had failed
+            // If autoplay failed and user hasn't explicitly disabled music, enable it NOW
             const musicPreference = localStorage.getItem('musicPreference');
-            if (autoplayFailed && musicPreference !== 'off') {
-                console.log("Attempting to enable music after user interaction...");
+            if (autoplayFailed && musicPreference !== 'off' && musicPlayer.paused) {
+                console.log("Enabling music immediately on interaction...");
 
-                try {
-                    isAttemptingPlayback = true;
-                    await musicPlayer.play();
-                    localStorage.setItem('musicPreference', 'on');
-                    musicToggleButton.classList.add('active');
-                    console.log("Music auto-enabled after interaction.");
-                } catch (error) {
-                    console.log("Auto-enable failed, user must click the button:", error);
-                    musicToggleButton.classList.remove('active');
-                } finally {
+                // Don't use async - play immediately in the same event handler
+                isAttemptingPlayback = true;
+                const playPromise = musicPlayer.play();
+
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        localStorage.setItem('musicPreference', 'on');
+                        musicToggleButton.classList.add('active');
+                        console.log("Music auto-enabled successfully!");
+                    }).catch(error => {
+                        console.error("Immediate play failed:", error);
+                        localStorage.setItem('musicPreference', 'off');
+                        musicToggleButton.classList.remove('active');
+                    }).finally(() => {
+                        isAttemptingPlayback = false;
+                    });
+                } else {
                     isAttemptingPlayback = false;
                 }
             }
         };
 
-        // Initialize music based on stored preference
-        const initializeMusic = async () => {
+        // Initialize music
+        const initializeMusic = () => {
             const musicPreference = localStorage.getItem('musicPreference');
 
             if (musicPreference === 'off') {
                 musicToggleButton.classList.remove('active');
+                console.log("Music disabled by user preference.");
                 return;
             }
 
             // Try autoplay
-            try {
-                isAttemptingPlayback = true;
-                await musicPlayer.play();
-                musicToggleButton.classList.add('active');
-                localStorage.setItem('musicPreference', 'on');
-                userHasInteracted = true; // Consider successful autoplay as interaction
-                console.log("Autoplay successful.");
-            } catch (error) {
-                console.log("Autoplay blocked, waiting for user interaction:", error.message);
-                autoplayFailed = true;
-                musicToggleButton.classList.remove('active');
+            console.log("Attempting autoplay...");
+            isAttemptingPlayback = true;
+            const autoplayPromise = musicPlayer.play();
 
-                // Set up interaction listeners with capture phase for better reliability
-                document.addEventListener('click', handleUserInteraction, { capture: true, passive: false });
-                document.addEventListener('touchstart', handleUserInteraction, { capture: true, passive: false });
-                document.addEventListener('touchend', handleUserInteraction, { capture: true, passive: false });
-                document.addEventListener('mousedown', handleUserInteraction, { capture: true, passive: false });
-                document.addEventListener('keydown', handleUserInteraction, { capture: true, passive: false });
-            } finally {
+            if (autoplayPromise !== undefined) {
+                autoplayPromise.then(() => {
+                    musicToggleButton.classList.add('active');
+                    localStorage.setItem('musicPreference', 'on');
+                    userHasInteracted = true;
+                    console.log("Autoplay successful!");
+                }).catch(error => {
+                    console.log("Autoplay blocked:", error.name, error.message);
+                    autoplayFailed = true;
+                    musicToggleButton.classList.remove('active');
+
+                    console.log("Setting up interaction listeners...");
+                    // Use capture phase for immediate response
+                    document.addEventListener('click', handleUserInteraction, { capture: true });
+                    document.addEventListener('touchstart', handleUserInteraction, { capture: true });
+                    document.addEventListener('touchend', handleUserInteraction, { capture: true });
+                    document.addEventListener('mousedown', handleUserInteraction, { capture: true });
+                    document.addEventListener('keydown', handleUserInteraction, { capture: true });
+                }).finally(() => {
+                    isAttemptingPlayback = false;
+                });
+            } else {
                 isAttemptingPlayback = false;
             }
         };
 
-        // Manual button click handler
-        musicToggleButton.addEventListener('click', async (event) => {
+        // Button click handler
+        musicToggleButton.addEventListener('click', (event) => {
             event.preventDefault();
             event.stopPropagation();
 
-            console.log("Music button clicked");
+            console.log("Music toggle button clicked");
             userHasInteracted = true;
 
-            // Remove any remaining interaction listeners
+            // Clean up any remaining listeners
             document.removeEventListener('click', handleUserInteraction, true);
             document.removeEventListener('touchstart', handleUserInteraction, true);
             document.removeEventListener('touchend', handleUserInteraction, true);
             document.removeEventListener('mousedown', handleUserInteraction, true);
             document.removeEventListener('keydown', handleUserInteraction, true);
 
-            await toggleMusic();
+            toggleMusic();
         });
 
-        // Initialize when DOM is ready
+        // Debug: Log when audio is loaded
+        musicPlayer.addEventListener('canplaythrough', () => {
+            console.log("Audio file loaded and ready to play");
+        });
+
+        musicPlayer.addEventListener('error', (e) => {
+            console.error("Audio error:", e);
+        });
+
+        // Initialize
         initializeMusic();
     }
-
 
     // ===================================
     // DYNAMIC CONTENT DATA
