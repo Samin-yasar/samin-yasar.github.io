@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const educationData = [
-        { level: "11th to 12th Grade", institution: "Ongoing...", status: "in-progress" },
+        { level: "11th to 12th Grade", institution: "Rajuk Uttara Model College", status: "in-progress" },
         { level: "6th to 10th Grade", institution: "Rajuk Uttara Model College", status: "completed" },
         { level: "Nursery to 5th Grade", institution: "Rajendrapur Cantonment Public School and College", status: "completed" },
     ];
