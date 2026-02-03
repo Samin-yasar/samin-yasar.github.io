@@ -1,0 +1,15 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "status": "completed",
+      "rating": 3,
+      "readingTime": 7,
+      "startDate": "2024-09-12",
+      "endDate": "2024-09-25",
+      "notes": "Simple but surprisingly effective framework."
+    }
+  ]
+}
