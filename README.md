@@ -55,11 +55,10 @@ This project embraces the purity of core web technologies:
 
 ### 🔒 Privacy-First Creations
 Explore my suite of open-source tools designed with security at their core:
-- **StarryCrypt** – End-to-end text encryption utility  
-- **Lunr** – Free period-tracking web app  
-- **Starpass** – Offline strong password generator  
-- **Private Wave** – Peer-to-peer encrypted chat  
-- **OriginScan** – Barcode-based product origin scanner  
+- **StarryCrypt** – End-to-end text encryption utility
+- **OriginScan** – Barcode-based product origin scanner    
+- **Starpass** – Offline strong password generator
+- **Lunr** – Free period-tracking web app
 - **Bangla Converter** – Bengali numeral system converter  
 
 ### 🏆 Accolades & Credentials
@@ -73,7 +72,7 @@ Explore my suite of open-source tools designed with security at their core:
 ### 🎓 Educational Path
 - **Nursery – 5th Grade:** Rajendrapur Cantonment Public School and College  
 - **6th – 10th Grade:** Rajuk Uttara Model College  
-- **11th – 12th Grade:** *In progress...*  
+- **11th – 12th Grade:** Rajuk Uttara Model College  
 
 ---
 
@@ -102,12 +101,11 @@ I’m always eager to collaborate or chat about tech and beyond.
 - 💼 LinkedIn: [@samin-yasar23](https://linkedin.com/in/samin-yasar23)  
 - 🐦 X (Twitter): [@SaminYasar23](https://twitter.com/SaminYasar23)  
 - 🐘 Mastodon: [@Samin@fosstodon.org](https://fosstodon.org/@Samin)  
-- 🌐 Bluesky: [@samin-yasar.github.io](https://bsky.app/profile/samin-yasar.github.io)  
-- 👤 Gravatar: **saminyasar23**  
+- 🌐 Bluesky: [@samin-yasar.github.io](https://bsky.app/profile/samin-yasar.github.io)   
 
 ---
 
 ## 📜 License
 Licensed under the **MIT License** for open collaboration.  
 
-© 2020–2025 **Samin Yasar**. Crafted with 💙 in Bangladesh.
+© 2020–2026 **Samin Yasar**. Crafted with 💙 in Bangladesh.
