@@ -24,7 +24,7 @@ Highlights:
 - 🔎 Instant client-side search (JSON-powered)
 - 📱 Responsive across all devices
 - ♿ Accessibility tools (font scaling, monochrome, inverted mode, reading guide)
-- 📩 Secure contact form via **FormSubmit.co**
+- 📩 Secure contact form via **FormSubmit.co** [WARNING: NOT E2EE BY DEFAULT]
 - 🎶 Ambient background music (royalty-free, toggleable)
 
 ---
