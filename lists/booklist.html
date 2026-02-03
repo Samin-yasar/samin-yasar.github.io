@@ -228,7 +228,7 @@ async function loadBooks() {
     const data = await res.json();
     books = data.books || [];
   } catch (e) {
-    console.warn('booklist.json not found or invalid — make sure the file is in the same directory as booklist.html');
+    console.warn('booklist.json not found or invalid');
     books = [];
   }
   render();
