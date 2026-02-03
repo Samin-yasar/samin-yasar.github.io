@@ -58,7 +58,7 @@ Explore my suite of open-source tools designed with security at their core:
 - **StarryCrypt** – End-to-end text encryption utility
 - **OriginScan** – Barcode-based product origin scanner    
 - **Starpass** – Offline strong password generator
-- **Lunr** – Free period-tracking web app
+- **AzureFlow** – Free period-tracking web app
 - **Bangla Converter** – Bengali numeral system converter  
 
 ### 🏆 Accolades & Credentials
