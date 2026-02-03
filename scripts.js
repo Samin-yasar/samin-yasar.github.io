@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { icon: '🛡️', title: 'StarryCrypt', desc: 'End-to-end text encryption tool using browser-only architecture to protect your privacy.', url: 'https://samin-yasar.github.io/StarryCrypt/' },
         { icon: '🔑', title: 'Starpass', desc: 'Generate strong, secure, and private passwords or passphrase right in your browser.', url: 'https://samin-yasar.github.io/Starpass/' },
         { icon: '🔄', title: 'Bangla Converter', desc: 'A simple, offline, and privacy-focused tool to convert between different Bengali numerical systems.', url: 'https://samin-yasar.github.io/Bangla-Converter' },
-        { icon: '🌙', title: 'Lunr', desc: 'A free online period tracking web app designed to help users monitor their menstrual cycles.', url: 'https://samin-yasar.github.io/Lunr/' },
+        { icon: '🌙', title: 'AzureFlow', desc: 'A free online period tracking web app designed to help users monitor their menstrual cycles.', url: 'https://samin-yasar.github.io/AzureFlow/' },
     ];
 
     const certificationsData = [
