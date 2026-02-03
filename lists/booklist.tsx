@@ -1,261 +1,483 @@
-import React, { useState, useEffect } from 'react';
-import { BookOpen, Clock, Star } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
-const STATUSES = [
-  { id: 'reading', label: 'Currently Reading', color: 'bg-blue-500' },
-  { id: 'completed', label: 'Completed', color: 'bg-green-500' },
-  { id: 'wishlist', label: 'Wish to Read', color: 'bg-purple-500' },
-  { id: 'dropped', label: 'Dropped', color: 'bg-red-500' },
-  { id: 'hold', label: 'On Hold', color: 'bg-yellow-500' }
-];
-
-export default function PublicBookTracker() {
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [activeStatus, setActiveStatus] = useState('all');
-  const [timeView, setTimeView] = useState('month');
-
-  useEffect(() => {
-    loadBooks();
-  }, []);
-
-  const loadBooks = async () => {
-    try {
-      const response = await fetch('books.json');
-      const data = await response.json();
-      setBooks(data.books || []);
-    } catch (error) {
-      console.log('No books.json found');
-      setBooks([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getReadingStats = () => {
-    const now = new Date();
-    const stats = { day: 0, month: 0, year: 0, allTime: 0 };
-    
-    books.forEach(book => {
-      const time = book.readingTime || 0;
-      stats.allTime += time;
-      
-      if (book.endDate) {
-        const endDate = new Date(book.endDate);
-        const dayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-        const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-        const yearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
-        
-        if (endDate >= dayAgo) stats.day += time;
-        if (endDate >= monthAgo) stats.month += time;
-        if (endDate >= yearAgo) stats.year += time;
-      }
-    });
-    
-    return stats;
-  };
-
-  const getChartData = () => {
-    const stats = getReadingStats();
-    
-    switch(timeView) {
-      case 'day':
-        return [{ name: 'Today', hours: stats.day }];
-      case 'month':
-        return [{ name: 'This Month', hours: stats.month }];
-      case 'year':
-        return [{ name: 'This Year', hours: stats.year }];
-      case 'alltime':
-        return [{ name: 'All Time', hours: stats.allTime }];
-      default:
-        return [{ name: 'This Month', hours: stats.month }];
-    }
-  };
-
-  const filteredBooks = activeStatus === 'all' 
-    ? books 
-    : books.filter(book => book.status === activeStatus);
-
-  const getStatusInfo = (statusId) => {
-    return STATUSES.find(s => s.id === statusId) || STATUSES[0];
-  };
-
-  const booksByStatus = STATUSES.map(status => ({
-    ...status,
-    count: books.filter(book => book.status === status.id).length
-  }));
-
-  const averageRating = books.filter(b => b.rating > 0).length > 0
-    ? (books.filter(b => b.rating > 0).reduce((sum, b) => sum + b.rating, 0) / books.filter(b => b.rating > 0).length).toFixed(1)
-    : 0;
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center">
-        <div className="text-xl text-gray-600">Loading books...</div>
-      </div>
-    );
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Reading Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --clr-bg: #f5f0eb;
+    --clr-card: #fffdf9;
+    --clr-accent: #4f46e5;
+    --clr-accent-light: #eef0ff;
+    --clr-text: #2d2b27;
+    --clr-text-muted: #7a7570;
+    --clr-border: #e8e3dc;
+    --clr-reading: #4f46e5;
+    --clr-completed: #16a34a;
+    --clr-wishlist: #9333ea;
+    --clr-dropped: #dc2626;
+    --clr-hold: #ca8a04;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    --shadow-hover: 0 6px 24px rgba(0,0,0,0.12);
+    --radius: 14px;
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <BookOpen className="w-12 h-12 text-indigo-600 mr-3" />
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-800">My Reading Journey</h1>
-          </div>
-          <p className="text-gray-600 text-lg">Explore my personal library and reading habits</p>
-        </div>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        {/* Reading Time Chart */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-4">
-            <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-              <Clock className="w-6 h-6 text-indigo-600" />
-              Reading Time Statistics
-            </h2>
-            <div className="flex gap-2 flex-wrap">
-              {['day', 'month', 'year', 'alltime'].map(view => (
-                <button
-                  key={view}
-                  onClick={() => setTimeView(view)}
-                  className={`px-3 py-1 rounded-full text-sm transition-all ${
-                    timeView === view
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
-                >
-                  {view === 'alltime' ? 'All Time' : view.charAt(0).toUpperCase() + view.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={getChartData()}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis label={{ value: 'Hours', angle: -90, position: 'insideLeft' }} />
-              <Tooltip />
-              <Bar dataKey="hours" fill="#4f46e5" />
-            </BarChart>
-          </ResponsiveContainer>
-          <div className="mt-4 text-center">
-            <p className="text-gray-600">
-              Total reading time: <span className="font-bold text-indigo-600">{getReadingStats().allTime} hours</span>
-            </p>
-            {averageRating > 0 && (
-              <p className="text-gray-600 mt-1">
-                Average rating: <span className="font-bold text-indigo-600">{averageRating}/5.0</span>
-              </p>
-            )}
-          </div>
-        </div>
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--clr-bg);
+    color: var(--clr-text);
+    min-height: 100vh;
+    padding: 40px 20px 60px;
+    -webkit-font-smoothing: antialiased;
+  }
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-3 mb-8">
-          <button
-            onClick={() => setActiveStatus('all')}
-            className={`p-4 rounded-lg shadow-md transition-all ${
-              activeStatus === 'all' 
-                ? 'bg-indigo-600 text-white transform scale-105' 
-                : 'bg-white text-gray-700 hover:shadow-lg'
-            }`}
-          >
-            <div className="text-2xl font-bold">{books.length}</div>
-            <div className="text-sm">All Books</div>
-          </button>
-          {booksByStatus.map(status => (
-            <button
-              key={status.id}
-              onClick={() => setActiveStatus(status.id)}
-              className={`p-4 rounded-lg shadow-md transition-all ${
-                activeStatus === status.id 
-                  ? `${status.color} text-white transform scale-105` 
-                  : 'bg-white text-gray-700 hover:shadow-lg'
-              }`}
-            >
-              <div className="text-2xl font-bold">{status.count}</div>
-              <div className="text-sm">{status.label}</div>
-            </button>
-          ))}
-        </div>
+  .wrapper { max-width: 1140px; margin: 0 auto; }
 
-        {/* Books Grid */}
-        {filteredBooks.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-lg shadow-md">
-            <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 text-lg">No books found in this category</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredBooks.map(book => {
-              const statusInfo = getStatusInfo(book.status);
-              return (
-                <div key={book.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all overflow-hidden">
-                  <div className={`h-2 ${statusInfo.color}`}></div>
-                  <div className="p-5">
-                    <div className="mb-3">
-                      <h3 className="text-xl font-bold text-gray-800 mb-1">{book.title}</h3>
-                      {book.author && (
-                        <p className="text-gray-600 italic">by {book.author}</p>
-                      )}
-                    </div>
-                    
-                    <div className="mb-3">
-                      <div className={`inline-block px-3 py-1 rounded-full text-white text-sm ${statusInfo.color}`}>
-                        {statusInfo.label}
-                      </div>
-                    </div>
+  /* ── Header ── */
+  .header { text-align: center; margin-bottom: 44px; }
+  .header-icon-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 6px; }
+  .header-icon { width: 40px; height: 40px; color: var(--clr-accent); }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .header p { color: var(--clr-text-muted); font-size: 1.05rem; margin-top: 4px; }
 
-                    {book.rating > 0 && (
-                      <div className="flex items-center gap-1 mb-2">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className={`w-4 h-4 ${
-                              i < book.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
-                            }`}
-                          />
-                        ))}
-                        <span className="text-sm text-gray-600 ml-1">({book.rating}/5)</span>
-                      </div>
-                    )}
+  /* ── Cards shared ── */
+  .card {
+    background: var(--clr-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--clr-border);
+  }
 
-                    {book.readingTime > 0 && (
-                      <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
-                        <Clock className="w-4 h-4" />
-                        <span>{book.readingTime} hours</span>
-                      </div>
-                    )}
+  /* ── Stats Bar ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .stat-btn {
+    padding: 18px 10px;
+    border-radius: var(--radius);
+    border: 1px solid var(--clr-border);
+    background: var(--clr-card);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    text-align: center;
+    transition: transform .2s, box-shadow .2s, background .2s, color .2s;
+  }
+  .stat-btn:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .stat-btn.active {
+    background: var(--clr-accent);
+    color: #fff;
+    border-color: var(--clr-accent);
+    transform: scale(1.04);
+  }
+  .stat-btn .num { font-size: 1.6rem; font-weight: 600; }
+  .stat-btn .label { font-size: 0.78rem; color: var(--clr-text-muted); margin-top: 2px; }
+  .stat-btn.active .label { color: rgba(255,255,255,.75); }
 
-                    {(book.startDate || book.endDate) && (
-                      <div className="text-sm text-gray-500 mb-2">
-                        {book.startDate && <div>Started: {new Date(book.startDate).toLocaleDateString()}</div>}
-                        {book.endDate && <div>Finished: {new Date(book.endDate).toLocaleDateString()}</div>}
-                      </div>
-                    )}
+  /* ── Reading Time Panel ── */
+  .time-panel { padding: 28px; margin-bottom: 32px; }
+  .time-panel-head {
+    display: flex; flex-wrap: wrap;
+    justify-content: space-between; align-items: center;
+    gap: 14px; margin-bottom: 20px;
+  }
+  .time-panel-head h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem; font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .time-panel-head h2 svg { color: var(--clr-accent); width: 20px; height: 20px; }
+  .time-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill {
+    padding: 5px 14px; border-radius: 999px;
+    border: 1px solid var(--clr-border);
+    background: #fff; font-size: 0.82rem; font-weight: 500;
+    cursor: pointer; transition: all .2s; color: var(--clr-text-muted);
+  }
+  .pill:hover { border-color: var(--clr-accent); color: var(--clr-accent); }
+  .pill.active { background: var(--clr-accent); color: #fff; border-color: var(--clr-accent); }
 
-                    {book.notes && (
-                      <div className="mt-3 p-3 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg border-l-4 border-indigo-600">
-                        <p className="text-xs text-indigo-600 font-semibold mb-1">Personal Review</p>
-                        <p className="text-gray-700 text-sm italic">"{book.notes}"</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+  .chart-wrap { width: 100%; height: 180px; position: relative; }
+  canvas#chart { width: 100%; height: 100%; display: block; }
 
-        {/* Footer */}
-        <div className="mt-12 text-center text-gray-500 text-sm">
-          <p>📚 This is a personal book collection. Last updated: {new Date().toLocaleDateString()}</p>
-        </div>
+  .time-summary { text-align: center; margin-top: 16px; font-size: 0.92rem; color: var(--clr-text-muted); }
+  .time-summary strong { color: var(--clr-accent); }
+
+  /* ── Books Grid ── */
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 22px;
+  }
+
+  .book-card {
+    overflow: hidden;
+    transition: box-shadow .25s, transform .25s;
+  }
+  .book-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+
+  .book-card .color-bar { height: 5px; }
+
+  .book-card .body { padding: 22px; }
+  .book-card h3 { font-family: 'Playfair Display', serif; font-size: 1.18rem; font-weight: 600; margin-bottom: 2px; }
+  .book-card .author { color: var(--clr-text-muted); font-style: italic; font-size: 0.9rem; margin-bottom: 12px; }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 12px; border-radius: 999px;
+    font-size: 0.78rem; font-weight: 500;
+    color: #fff; margin-bottom: 12px;
+  }
+
+  .stars { display: flex; align-items: center; gap: 3px; margin-bottom: 10px; }
+  .star { width: 16px; height: 16px; }
+  .stars-label { font-size: 0.8rem; color: var(--clr-text-muted); margin-left: 4px; }
+
+  .meta-row { font-size: 0.82rem; color: var(--clr-text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .meta-row svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .notes-box {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: var(--clr-accent-light);
+    border-left: 3px solid var(--clr-accent);
+    border-radius: 0 8px 8px 0;
+  }
+  .notes-box .notes-label { font-size: 0.72rem; font-weight: 600; color: var(--clr-accent); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 3px; }
+  .notes-box p { font-size: 0.85rem; font-style: italic; color: var(--clr-text); }
+
+  /* ── Empty State ── */
+  .empty-state {
+    text-align: center; padding: 60px 20px;
+    background: var(--clr-card); border-radius: var(--radius);
+    box-shadow: var(--shadow); border: 1px solid var(--clr-border);
+  }
+  .empty-state svg { width: 56px; height: 56px; color: #ccc; margin-bottom: 12px; }
+  .empty-state p { color: var(--clr-text-muted); font-size: 1.05rem; }
+
+  /* ── Footer ── */
+  .footer { text-align: center; margin-top: 48px; color: var(--clr-text-muted); font-size: 0.82rem; }
+
+  /* ── Loader ── */
+  .loader {
+    min-height: 60vh; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 1.2rem; color: var(--clr-text-muted);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 520px) {
+    .books-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper" id="app">
+  <div class="loader" id="loader">Loading books…</div>
+</div>
+
+<!-- ═══ SVG Icons (reusable) ═══ -->
+<svg style="display:none">
+  <defs>
+    <symbol id="icon-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-1H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-1h7z"/>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </symbol>
+    <symbol id="icon-star-filled" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </symbol>
+    <symbol id="icon-star-empty" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </symbol>
+  </defs>
+</svg>
+
+<script>
+// ─── Data & Config ─────────────────────────────────────────────────
+const STATUSES = [
+  { id: 'reading',   label: 'Reading',   color: '#4f46e5' },
+  { id: 'completed', label: 'Completed', color: '#16a34a' },
+  { id: 'wishlist',  label: 'Wishlist',  color: '#9333ea' },
+  { id: 'dropped',   label: 'Dropped',   color: '#dc2626' },
+  { id: 'hold',      label: 'On Hold',   color: '#ca8a04' }
+];
+
+let books        = [];
+let activeStatus = 'all';
+let timeView     = 'month';
+
+// ─── Fetch Books ───────────────────────────────────────────────────
+async function loadBooks() {
+  try {
+    const res  = await fetch('books.json');
+    const data = await res.json();
+    books = data.books || [];
+  } catch (e) {
+    // If books.json is missing, use sample data so the page isn't blank
+    books = sampleBooks();
+  }
+  render();
+}
+
+// ─── Sample / fallback data ────────────────────────────────────────
+function sampleBooks() {
+  return [
+    { id:1, title:"Dune", author:"Frank Herbert", status:"completed", rating:5, readingTime:18, startDate:"2024-11-01", endDate:"2024-11-28", notes:"A sprawling masterpiece. The world-building is unmatched." },
+    { id:2, title:"The Pragmatic Programmer", author:"David Thomas & Andrew Hunt", status:"completed", rating:4, readingTime:10, startDate:"2024-12-05", endDate:"2024-12-20", notes:"Packed with advice I wish I'd read years ago." },
+    { id:3, title:"Midnight Library", author:"Matt Haig", status:"reading", rating:0, readingTime:4, startDate:"2025-01-10", endDate:null, notes:null },
+    { id:4, title:"Sapiens", author:"Yuval Noah Harari", status:"completed", rating:4, readingTime:14, startDate:"2024-10-01", endDate:"2024-10-22", notes:"Changed the way I think about civilisations." },
+    { id:5, title:"Project Hail Mary", author:"Andy Weir", status:"wishlist", rating:0, readingTime:0, startDate:null, endDate:null, notes:null },
+    { id:6, title:"Atomic Habits", author:"James Clear", status:"completed", rating:3, readingTime:7, startDate:"2024-09-12", endDate:"2024-09-25", notes:"Simple but surprisingly effective framework." },
+    { id:7, title:"The Name of the Wind", author:"Patrick Rothfuss", status:"hold", rating:5, readingTime:22, startDate:"2024-08-01", endDate:null, notes:"Gorgeous prose — put on hold until the series finishes." },
+    { id:8, title:"Educated", author:"Tara Westover", status:"dropped", rating:3, readingTime:5, startDate:"2024-07-10", endDate:null, notes:"Compelling start, but didn't finish." },
+    { id:9, title:"1984", author:"George Orwell", status:"completed", rating:5, readingTime:8, startDate:"2024-06-01", endDate:"2024-06-12", notes:"Timeless and chilling." },
+    { id:10, title:"Thinking, Fast and Slow", author:"Daniel Kahneman", status:"wishlist", rating:0, readingTime:0, startDate:null, endDate:null, notes:null }
+  ];
+}
+
+// ─── Stats helpers ─────────────────────────────────────────────────
+function getReadingStats() {
+  const now   = Date.now();
+  const DAY   = 86400000;
+  const stats = { day: 0, month: 0, year: 0, allTime: 0 };
+
+  books.forEach(b => {
+    const t = b.readingTime || 0;
+    stats.allTime += t;
+    if (b.endDate) {
+      const end = new Date(b.endDate).getTime();
+      if (end >= now - DAY)       stats.day   += t;
+      if (end >= now - 30 * DAY)  stats.month += t;
+      if (end >= now - 365 * DAY) stats.year  += t;
+    }
+  });
+  return stats;
+}
+
+function avgRating() {
+  const rated = books.filter(b => b.rating > 0);
+  return rated.length ? (rated.reduce((s, b) => s + b.rating, 0) / rated.length).toFixed(1) : 0;
+}
+
+// ─── Chart (vanilla canvas) ───────────────────────────────────────
+function drawChart() {
+  const canvas = document.getElementById('chart');
+  if (!canvas) return;
+  const ctx    = canvas.getContext('2d');
+  const dpr    = window.devicePixelRatio || 1;
+
+  // size
+  const rect   = canvas.parentElement.getBoundingClientRect();
+  const W      = rect.width;
+  const H      = rect.height || 180;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W  + 'px';
+  canvas.style.height = H  + 'px';
+  ctx.scale(dpr, dpr);
+
+  // clear
+  ctx.clearRect(0, 0, W, H);
+
+  // data
+  const stats = getReadingStats();
+  const labels = { day:'Today', month:'This Month', year:'This Year', alltime:'All Time' };
+  const values = { day: stats.day, month: stats.month, year: stats.year, alltime: stats.allTime };
+
+  const keys   = ['day','month','year','alltime'];
+  const pad    = { top: 24, right: 28, bottom: 36, left: 48 };
+  const chartW = W - pad.left - pad.right;
+  const chartH = H - pad.top  - pad.bottom;
+  const maxVal = Math.max(...keys.map(k => values[k]), 1);
+
+  // grid lines + y labels
+  ctx.strokeStyle = '#e8e3dc';
+  ctx.lineWidth   = 1;
+  ctx.fillStyle   = '#7a7570';
+  ctx.font        = '11px "DM Sans", sans-serif';
+  ctx.textAlign   = 'right';
+  const gridCount = 4;
+  for (let i = 0; i <= gridCount; i++) {
+    const y = pad.top + chartH - (chartH * i / gridCount);
+    ctx.beginPath();
+    ctx.moveTo(pad.left, y);
+    ctx.lineTo(W - pad.right, y);
+    ctx.stroke();
+    const val = (maxVal * i / gridCount).toFixed(0);
+    ctx.fillText(val + 'h', pad.left - 8, y + 4);
+  }
+
+  // bars
+  const barW    = Math.min(chartW / keys.length * 0.55, 80);
+  const gapW    = (chartW - barW * keys.length) / (keys.length + 1);
+
+  keys.forEach((k, i) => {
+    const barH  = (values[k] / maxVal) * chartH;
+    const x     = pad.left + gapW * (i + 1) + barW * i;
+    const y     = pad.top  + chartH - barH;
+
+    // bar colour: active = accent, rest = light
+    const isActive = (k === timeView);
+    ctx.fillStyle  = isActive ? '#4f46e5' : '#c7c3f7';
+    ctx.beginPath();
+    // rounded top
+    const r = 6;
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + barW - r, y);
+    ctx.quadraticCurveTo(x + barW, y, x + barW, y + r);
+    ctx.lineTo(x + barW, y + barH);
+    ctx.lineTo(x, y + barH);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    ctx.fill();
+
+    // value label above bar
+    ctx.fillStyle = '#2d2b27';
+    ctx.font      = '600 12px "DM Sans", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(values[k] + 'h', x + barW / 2, y - 6);
+
+    // x label
+    ctx.fillStyle = isActive ? '#4f46e5' : '#7a7570';
+    ctx.font      = (isActive ? '600 ' : '400 ') + '11px "DM Sans", sans-serif';
+    ctx.fillText(labels[k], x + barW / 2, pad.top + chartH + 22);
+  });
+}
+
+// ─── Icon helpers ──────────────────────────────────────────────────
+const iconBook  = '<svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-1H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-1h7z"/></svg>';
+const iconClock = (sz=20) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+const iconCalendar = (sz=14) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+
+function starHTML(rating) {
+  let html = '<div class="stars">';
+  for (let i = 1; i <= 5; i++)
+    html += `<svg class="star" viewBox="0 0 24 24"><use href="#icon-star-${i <= rating ? 'filled' : 'empty'}"/></svg>`;
+  html += `<span class="stars-label">(${rating}/5)</span></div>`;
+  return html;
+}
+
+// ─── Main Render ───────────────────────────────────────────────────
+function render() {
+  const app = document.getElementById('app');
+
+  // counts
+  const counts = { all: books.length };
+  STATUSES.forEach(s => { counts[s.id] = books.filter(b => b.status === s.id).length; });
+
+  const filtered = activeStatus === 'all' ? books : books.filter(b => b.status === activeStatus);
+  const stats    = getReadingStats();
+  const avg      = avgRating();
+
+  app.innerHTML = `
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon-row">
+      ${iconBook}
+      <h1>My Reading Journey</h1>
+    </div>
+    <p>Explore my personal library and reading habits</p>
+  </div>
+
+  <!-- Reading Time Panel -->
+  <div class="card time-panel">
+    <div class="time-panel-head">
+      <h2>${iconClock(20)} Reading Time Statistics</h2>
+      <div class="time-pills" id="pills">
+        ${['day','month','year','alltime'].map(v =>
+          `<button class="pill ${timeView===v?'active':''}" data-view="${v}">${v==='alltime'?'All Time':v.charAt(0).toUpperCase()+v.slice(1)}</button>`
+        ).join('')}
       </div>
     </div>
-  );
+    <div class="chart-wrap"><canvas id="chart"></canvas></div>
+    <div class="time-summary">
+      Total reading time: <strong>${stats.allTime} hours</strong>
+      ${avg > 0 ? `&nbsp;·&nbsp; Average rating: <strong>${avg} / 5</strong>` : ''}
+    </div>
+  </div>
+
+  <!-- Status Filter Buttons -->
+  <div class="stats-bar" id="statBar">
+    <button class="stat-btn ${activeStatus==='all'?'active':''}" data-status="all">
+      <div class="num">${counts.all}</div><div class="label">All Books</div>
+    </button>
+    ${STATUSES.map(s => `
+      <button class="stat-btn ${activeStatus===s.id?'active':''}" data-status="${s.id}" style="${activeStatus===s.id?'background:'+s.color+';border-color:'+s.color:''}">
+        <div class="num">${counts[s.id]}</div><div class="label">${s.label}</div>
+      </button>
+    `).join('')}
+  </div>
+
+  <!-- Books Grid -->
+  ${filtered.length === 0 ? `
+    <div class="empty-state">
+      ${iconBook}
+      <p>No books in this category yet.</p>
+    </div>
+  ` : `
+    <div class="books-grid" id="grid">
+      ${filtered.map(b => {
+        const st = STATUSES.find(s => s.id === b.status) || STATUSES[0];
+        return `
+        <div class="book-card card">
+          <div class="color-bar" style="background:${st.color}"></div>
+          <div class="body">
+            <h3>${b.title}</h3>
+            ${b.author ? `<p class="author">by ${b.author}</p>` : ''}
+            <span class="badge" style="background:${st.color}">${st.label}</span><br/>
+            ${b.rating > 0 ? starHTML(b.rating) : ''}
+            ${b.readingTime > 0 ? `<div class="meta-row">${iconClock(14)}<span>${b.readingTime} hours</span></div>` : ''}
+            ${b.startDate ? `<div class="meta-row">${iconCalendar()}<span>Started: ${new Date(b.startDate).toLocaleDateString()}</span></div>` : ''}
+            ${b.endDate   ? `<div class="meta-row">${iconCalendar()}<span>Finished: ${new Date(b.endDate).toLocaleDateString()}</span></div>` : ''}
+            ${b.notes ? `<div class="notes-box"><div class="notes-label">Personal Review</div><p>"${b.notes}"</p></div>` : ''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  `}
+
+  <!-- Footer -->
+  <div class="footer">📚 Personal book collection · Last updated: ${new Date().toLocaleDateString()}</div>
+  `;
+
+  // Attach events
+  document.getElementById('pills').addEventListener('click', e => {
+    if (e.target.classList.contains('pill')) {
+      timeView = e.target.dataset.view;
+      render();
+    }
+  });
+
+  document.getElementById('statBar').addEventListener('click', e => {
+    const btn = e.target.closest('.stat-btn');
+    if (btn) { activeStatus = btn.dataset.status; render(); }
+  });
+
+  // draw chart after DOM is ready
+  requestAnimationFrame(drawChart);
 }
+
+// Redraw chart on resize
+window.addEventListener('resize', drawChart);
+
+// ── Boot ──
+loadBooks();
+</script>
+</body>
+</html>
