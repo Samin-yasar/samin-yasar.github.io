@@ -224,30 +224,14 @@ let timeView     = 'month';
 // ─── Fetch Books ───────────────────────────────────────────────────
 async function loadBooks() {
   try {
-    const res  = await fetch('books.json');
+    const res  = await fetch('booklist.json');
     const data = await res.json();
     books = data.books || [];
   } catch (e) {
-    // If books.json is missing, use sample data so the page isn't blank
-    books = sampleBooks();
+    console.warn('booklist.json not found or invalid — make sure the file is in the same directory as booklist.html');
+    books = [];
   }
   render();
-}
-
-// ─── Sample / fallback data ────────────────────────────────────────
-function sampleBooks() {
-  return [
-    { id:1, title:"Dune", author:"Frank Herbert", status:"completed", rating:5, readingTime:18, startDate:"2024-11-01", endDate:"2024-11-28", notes:"A sprawling masterpiece. The world-building is unmatched." },
-    { id:2, title:"The Pragmatic Programmer", author:"David Thomas & Andrew Hunt", status:"completed", rating:4, readingTime:10, startDate:"2024-12-05", endDate:"2024-12-20", notes:"Packed with advice I wish I'd read years ago." },
-    { id:3, title:"Midnight Library", author:"Matt Haig", status:"reading", rating:0, readingTime:4, startDate:"2025-01-10", endDate:null, notes:null },
-    { id:4, title:"Sapiens", author:"Yuval Noah Harari", status:"completed", rating:4, readingTime:14, startDate:"2024-10-01", endDate:"2024-10-22", notes:"Changed the way I think about civilisations." },
-    { id:5, title:"Project Hail Mary", author:"Andy Weir", status:"wishlist", rating:0, readingTime:0, startDate:null, endDate:null, notes:null },
-    { id:6, title:"Atomic Habits", author:"James Clear", status:"completed", rating:3, readingTime:7, startDate:"2024-09-12", endDate:"2024-09-25", notes:"Simple but surprisingly effective framework." },
-    { id:7, title:"The Name of the Wind", author:"Patrick Rothfuss", status:"hold", rating:5, readingTime:22, startDate:"2024-08-01", endDate:null, notes:"Gorgeous prose — put on hold until the series finishes." },
-    { id:8, title:"Educated", author:"Tara Westover", status:"dropped", rating:3, readingTime:5, startDate:"2024-07-10", endDate:null, notes:"Compelling start, but didn't finish." },
-    { id:9, title:"1984", author:"George Orwell", status:"completed", rating:5, readingTime:8, startDate:"2024-06-01", endDate:"2024-06-12", notes:"Timeless and chilling." },
-    { id:10, title:"Thinking, Fast and Slow", author:"Daniel Kahneman", status:"wishlist", rating:0, readingTime:0, startDate:null, endDate:null, notes:null }
-  ];
 }
 
 // ─── Stats helpers ─────────────────────────────────────────────────
