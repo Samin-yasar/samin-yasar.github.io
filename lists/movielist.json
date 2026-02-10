@@ -5,7 +5,7 @@
       "director": "Colin Trevorrow",
       "year": 2015,
       "status": "watched",
-      "rating": 4,
+      "rating": 3,
       "watchTime": 2,
       "startDate": "2026-02-10",
       "endDate": "2026-02-10",
@@ -22,6 +22,18 @@
       "startDate": "2026-02-10",
       "endDate": "2026-02-10",
       "genre": ["Sci-Fi", "Action & Adventure"],
+      "notes": null
+    },
+    {
+      "title": "Jawan",
+      "director": "Atlee Kumar",
+      "year": 2023,
+      "status": "watched",
+      "rating": 4,
+      "watchTime": 2.8,
+      "startDate": "2025-12-29",
+      "endDate": "2025-12-29",
+      "genre": ["Action", "Thriller"],
       "notes": null
     }
   ]
