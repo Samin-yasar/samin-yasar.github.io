@@ -5,12 +5,36 @@
       "director": "Colin Trevorrow",
       "year": 2015,
       "status": "watched",
-      "rating": 3,
+      "rating": 3.2,
       "watchTime": 2,
       "startDate": "2026-02-10",
       "endDate": "2026-02-10",
       "genre": ["Sci-Fi", "Action & Adventure"],
       "notes": null
+    },
+    {
+      "title": "Kingsman: Secret Service",
+      "director": "Matthew Vaughn",
+      "year": 2014,
+      "status": "watched",
+      "rating": 4,
+      "watchTime": 2.1,
+      "startDate": "2026-02-11",
+      "endDate": "2026-02-11",
+      "genre": ["Spy", "Thriller"],
+      "notes": "An amazing spy thriller with plot twists."
+    },
+    {
+      "title": "Kingsman: The Golden Circle",
+      "director": "Matthew Vaughn",
+      "year": 2017,
+      "status": "watched",
+      "rating": 4.2,
+      "watchTime": 2.5,
+      "startDate": "2026-02-11",
+      "endDate": "2026-02-11",
+      "genre": ["Spy", "Thriller"],
+      "notes": "An amazing spy thriller with a lot of emotional materials."
     },
     {
       "title": "Jurassic World: Fallen Kingdom",
@@ -29,12 +53,13 @@
       "director": "Atlee Kumar",
       "year": 2023,
       "status": "watched",
-      "rating": 4,
+      "rating": 3.5,
       "watchTime": 2.8,
       "startDate": "2025-12-29",
       "endDate": "2025-12-29",
       "genre": ["Action", "Thriller"],
       "notes": null
-    }
+    },
+    
   ]
 }
