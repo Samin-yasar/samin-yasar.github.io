@@ -1,88 +1,102 @@
 {
   "movies": [
     {
-      "title": "Mission Impossible I",
+      "title": "Mission: Impossible",
       "director": "Brian De Palma",
       "year": 1996,
       "status": "watched",
       "rating": 3.7,
-      "watchTime": 2,
+      "watchTime": 1.83,
       "startDate": "2024-02-10",
       "endDate": "2024-02-10",
-      "genre": ["Spy", "Action & Adventure"],
-      "notes": null
+      "genre": ["Spy", "Action", "Thriller"],
+      "rewatched": false,
+      "rewatchCount": 0,
+      "notes": "A stylish, genuinely labyrinthine spy thriller that demands your full attention. De Palma's direction is slick — the CIA vault heist is still one of cinema's great set pieces, all silence and suspended breath. But the plot is deliberately convoluted to a fault; I had to look up a recap after to confirm I'd followed it correctly. Cruise is charismatic but the film belongs to its craft more than its characters. A solid franchise opener, even if it's more of a puzzle box than a crowd-pleaser."
     },
     {
-      "title": "Mission Impossible II",
+      "title": "Mission: Impossible 2",
       "director": "John Woo",
       "year": 2000,
       "status": "watched",
       "rating": 3.4,
-      "watchTime": 2,
+      "watchTime": 2.07,
       "startDate": "2024-05-10",
       "endDate": "2024-05-10",
-      "genre": ["Spy", "Action & Adventure"],
-      "notes": null
+      "genre": ["Spy", "Action", "Thriller"],
+      "rewatched": false,
+      "rewatchCount": 0,
+      "notes": "John Woo's fingerprints are all over this — slow-motion doves, impossible hair, and motorcycle jousting that defies both physics and good taste. It's absolutely ridiculous, and honestly, it knows it. The plot is thin enough to see through, and the villain (Dougray Scott) is forgettable, but the action choreography has a certain balletic excess that's hard to look away from. The Chimera virus storyline never generates real tension. It's the weakest MI film but worth watching as a time capsule of early-2000s excess."
     },
     {
-      "title": "Mission Impossible III",
+      "title": "Mission: Impossible III",
       "director": "J.J. Abrams",
       "year": 2006,
       "status": "watched",
       "rating": 3.9,
-      "watchTime": 2,
+      "watchTime": 2.1,
       "startDate": "2025-12-10",
       "endDate": "2025-12-10",
-      "genre": ["Spy", "Action & Adventure"],
-      "notes": null
+      "genre": ["Spy", "Action", "Thriller"],
+      "rewatched": false,
+      "rewatchCount": 0,
+      "notes": "Abrams drags the franchise back to earth — literally opening with Ethan Hunt on his knees, gun to a loved one's head. Philip Seymour Hoffman's Owen Davian is the best villain of the entire series: cold, economical, terrifying. The Shanghai and Vatican sequences show real directorial craft. The 'Rabbit's Foot' MacGuffin is deliberately never explained, which is either brilliantly self-aware or frustrating depending on your mood. The emotional core — Ethan's civilian life at stake — gives this more weight than its predecessors."
     },
     {
-      "title": "Mission Impossible - Ghost Protocol",
-      "director": "J.J. Abrams",
+      "title": "Mission: Impossible – Ghost Protocol",
+      "director": "Brad Bird",
       "year": 2011,
       "status": "watched",
       "rating": 4.1,
-      "watchTime": 2,
+      "watchTime": 2.22,
       "startDate": "2026-02-11",
       "endDate": "2026-02-11",
-      "genre": ["Spy", "Action & Adventure"],
-      "notes": null
+      "genre": ["Spy", "Action", "Thriller"],
+      "rewatched": false,
+      "rewatchCount": 0,
+      "notes": "Brad Bird — an animation director making his live-action debut — somehow delivered the best action film of the year. The Burj Khalifa sequence is the franchise's crown jewel: Tom Cruise actually climbing the world's tallest building with sticky gloves, no double, shot in IMAX. It's jaw-dropping cinema. The plot moves with wonderful efficiency, the team chemistry (Renner, Pegg, Patton) feels genuinely warm, and the Dubai sandstorm chase is operatic. Ghost Protocol is where the franchise stopped being good and became great."
     },
     {
-      "title": "Mission Impossible - Rogue Nation",
+      "title": "Mission: Impossible – Rogue Nation",
       "director": "Christopher McQuarrie",
       "year": 2015,
       "status": "watched",
       "rating": 4.1,
-      "watchTime": 2,
+      "watchTime": 2.18,
       "startDate": "2026-02-11",
-      "endDate": "2025-02-11",
-      "genre": ["Spy", "Action & Adventure"],
-      "notes": null
+      "endDate": "2026-02-11",
+      "genre": ["Spy", "Action", "Thriller"],
+      "rewatched": false,
+      "rewatchCount": 0,
+      "notes": "McQuarrie brings a more grounded, Bondian intelligence to the series. Rebecca Ferguson's Ilsa Faust is the best addition to the franchise since Ving Rhames — her loyalties are genuinely ambiguous throughout, and she more than holds her own against Cruise. The Vienna Opera House set piece is elegant and tense in equal measure, and the underwater sequence had me holding my breath involuntarily. Solomon Lane (Sean Harris) is menacingly understated. A worthy successor to Ghost Protocol and arguably just as good."
     },
     {
-      "title": "Mission: Impossible - Fallout",
+      "title": "Mission: Impossible – Fallout",
       "director": "Christopher McQuarrie",
       "year": 2018,
       "status": "watched",
       "rating": 4.1,
-      "watchTime": 2,
+      "watchTime": 2.47,
       "startDate": "2026-02-12",
       "endDate": "2026-02-12",
-      "genre": ["Spy", "Action & Adventure"],
-      "notes": null
+      "genre": ["Spy", "Action", "Thriller"],
+      "rewatched": false,
+      "rewatchCount": 0,
+      "notes": "The consensus says Fallout is the best Mission: Impossible film, and I mostly agree. The bathroom brawl is one of the greatest fight scenes in action cinema — brutal, unglamorous, exhausting in all the right ways. Henry Cavill loading his fists like revolvers has become a meme for good reason. The HALO jump sequence in Paris is breathtaking. What separates Fallout from its peers is consequence: actions from previous films actually matter here, which is rare for this franchise. The helicopter finale runs a touch long, but the film earns it."
     },
     {
-      "title": "Mission: Impossible Dead Reckoning",
+      "title": "Mission: Impossible – Dead Reckoning Part One",
       "director": "Christopher McQuarrie",
       "year": 2023,
       "status": "watched",
       "rating": 4.3,
-      "watchTime": 2,
+      "watchTime": 2.63,
       "startDate": "2026-02-12",
       "endDate": "2026-02-12",
-      "genre": ["Spy", "Action & Adventure"],
-      "notes": null
+      "genre": ["Spy", "Action", "Thriller"],
+      "rewatched": true,
+      "rewatchCount": 1,
+      "notes": "The most ambitious MI film yet, grappling with AI existential risk through the lens of a $300 million action spectacle. Hayley Atwell's Grace is a fantastic introduction — charming, duplicitous, funny. The train sequence finale is an instant classic. My one reservation: calling it 'Part One' and not releasing Part Two for two years was a genuine structural frustration. The first act meanders, but the film is breathtaking moment to moment. Still the best MI since Fallout."
     },
     {
       "title": "Jurassic World",
@@ -90,23 +104,41 @@
       "year": 2015,
       "status": "watched",
       "rating": 3.2,
-      "watchTime": 2,
+      "watchTime": 2.18,
       "startDate": "2026-02-10",
       "endDate": "2026-02-10",
-      "genre": ["Sci-Fi", "Action & Adventure"],
-      "notes": null
+      "genre": ["Sci-Fi", "Action", "Adventure"],
+      "rewatched": false,
+      "rewatchCount": 0,
+      "notes": "A competent sequel that recaptures some of Spielberg's original wonder while failing to match any of its depth. The Indominus Rex is a serviceable monster and the Mosasaurus reveal is genuinely exciting. But the human characters are flat and the film's attitude toward its female lead is remarkably dated — heels while running from velociraptors is a choice. Chris Pratt is likable but underwritten. Entertaining theme park cinema that doesn't linger, but does exactly what it intended."
     },
     {
-      "title": "Kingsman: Secret Service",
+      "title": "Jurassic World: Fallen Kingdom",
+      "director": "J.A. Bayona",
+      "year": 2018,
+      "status": "hold",
+      "rating": null,
+      "watchTime": null,
+      "startDate": "2026-02-10",
+      "endDate": null,
+      "genre": ["Sci-Fi", "Action", "Adventure"],
+      "rewatched": false,
+      "rewatchCount": 0,
+      "notes": "Paused about 40 minutes in — the volcanic eruption sequence looked impressive but the mansion horror-movie pivot felt bizarre. Will come back to it."
+    },
+    {
+      "title": "Kingsman: The Secret Service",
       "director": "Matthew Vaughn",
       "year": 2014,
       "status": "watched",
-      "rating": 4,
-      "watchTime": 2.1,
+      "rating": 4.0,
+      "watchTime": 2.12,
       "startDate": "2026-02-11",
       "endDate": "2026-02-11",
-      "genre": ["Spy", "Thriller"],
-      "notes": "An amazing spy thriller with plot twists."
+      "genre": ["Spy", "Action", "Comedy"],
+      "rewatched": false,
+      "rewatchCount": 0,
+      "notes": "A razor-sharp deconstruction of the British spy genre that somehow becomes the thing it's parodying — and the better for it. Colin Firth doing the church massacre to 'Free Bird' is the most unhinged, technically extraordinary single action sequence I've seen in years. The class commentary is surprisingly pointed for a mainstream blockbuster. Taron Egerton is instantly watchable as Eggsy. An amazing spy thriller with plot twists that still land even when you know they're coming."
     },
     {
       "title": "Kingsman: The Golden Circle",
@@ -114,23 +146,13 @@
       "year": 2017,
       "status": "watched",
       "rating": 4.2,
-      "watchTime": 2.5,
+      "watchTime": 2.35,
       "startDate": "2026-02-11",
       "endDate": "2026-02-11",
-      "genre": ["Spy", "Thriller"],
-      "notes": "An amazing spy thriller with a lot of emotional materials."
-    },
-    {
-      "title": "Jurassic World: Fallen Kingdom",
-      "director": "J. A. Bayona",
-      "year": 2018,
-      "status": "hold",
-      "rating": null,
-      "watchTime": null,
-      "startDate": "2026-02-10",
-      "endDate": "2026-02-10",
-      "genre": ["Sci-Fi", "Action & Adventure"],
-      "notes": null
+      "genre": ["Spy", "Action", "Comedy"],
+      "rewatched": false,
+      "rewatchCount": 0,
+      "notes": "Bigger, louder, and more emotionally reckless than the first — which somehow works. The decision to kill Merlin with a landmine was a genuine gut-punch I didn't see coming; Mark Strong played him with such quiet dignity that the loss hit hard. Jeff Bridges and Channing Tatum are underused, and Julianne Moore's villain is more quirky than threatening. But the Elton John cameo is inspired chaos and the film has more heart than expected. The emotional stakes are higher than the first in unexpected ways."
     },
     {
       "title": "Jawan",
@@ -141,9 +163,10 @@
       "watchTime": 2.8,
       "startDate": "2025-12-29",
       "endDate": "2025-12-29",
-      "genre": ["Action", "Thriller"],
-      "notes": null
-    },
-    
+      "genre": ["Action", "Thriller", "Drama"],
+      "rewatched": false,
+      "rewatchCount": 0,
+      "notes": "Shah Rukh Khan in dual roles, directed with gleeful maximalism by Atlee. The first half is relentlessly inventive — prison heist sequences, female prisoner ensemble, an almost satirical commentary on Indian institutional corruption. But at nearly three hours it overstays its welcome. The emotional flashback structure connecting both roles is overwrought and the villain is undercooked. Still, SRK's charm is undeniable and the metro chase is genuinely thrilling. Worth it for the ambition alone."
+    }
   ]
 }
