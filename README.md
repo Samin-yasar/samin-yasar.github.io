@@ -2,13 +2,13 @@
 # Personal Portfolio Website
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Website: online](https://img.shields.io/website?url=https%3A%2F%2Fsamin-yasar.github.io%2F)
+![Website: online](https://img.shields.io/website?url=https%3A%2F%2Fsamin-yasar.dev%2F)
 
 Welcome to the heart of my online presence—this repository houses the source code for my personal portfolio website.  
 It's a thoughtfully crafted, single-page experience that reflects my journey as a **developer, photographer, and cybersecurity advocate from Bangladesh**.  
 Designed with elegance and responsiveness in mind, it serves as a window into my world of code, creativity, and commitment to digital privacy.
 
-👉 **Live Demo:** [samin-yasar.github.io](https://samin-yasar.github.io)
+👉 **Live Demo:** [samin-yasar.dev](https://samin-yasar.dev)
 
 ---
 
@@ -85,7 +85,7 @@ As a static site, it's refreshingly simple to set up—no builds or servers requ
 git clone https://github.com/samin-yasar/samin-yasar.github.io.git
 
 # Enter the directory
-cd samin-yasar.github.io
+cd samin-yasar.dev
 
 # Launch locally (open in browser)
 open index.html
@@ -96,12 +96,12 @@ open index.html
 ## 🤝 Let's Connect
 I’m always eager to collaborate or chat about tech and beyond.
 
-- 📧 Email: **samin.rash525@silomails.com**  
+- 📧 Email: **contact@samin-yasar.dev**  
 - 🐙 GitHub: [@samin-yasar](https://github.com/samin-yasar)  
 - 💼 LinkedIn: [@samin-yasar23](https://linkedin.com/in/samin-yasar23)  
 - 🐦 X (Twitter): [@SaminYasar23](https://twitter.com/SaminYasar23)  
 - 🐘 Mastodon: [@Samin@fosstodon.org](https://fosstodon.org/@Samin)  
-- 🌐 Bluesky: [@samin-yasar.github.io](https://bsky.app/profile/samin-yasar.github.io)   
+- 🌐 Bluesky: [@samin-yasar.dev](https://bsky.app/profile/samin-yasar.dev)   
 
 ---
 
