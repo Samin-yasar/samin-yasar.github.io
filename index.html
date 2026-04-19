@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Moved</title>
+    <meta http-equiv="refresh" content="3; url=https://samin-yasar.dev" />
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+      }
+      main {
+        width: min(92vw, 560px);
+        padding: 2rem;
+        border-radius: 1rem;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        text-align: center;
+      }
+      h1 {
+        margin-top: 0;
+      }
+      p {
+        line-height: 1.55;
+        margin-bottom: 1.2rem;
+      }
+      .button {
+        display: inline-block;
+        text-decoration: none;
+        color: #0f172a;
+        background: #38bdf8;
+        padding: 0.75rem 1.1rem;
+        border-radius: 0.625rem;
+        font-weight: 700;
+      }
+      .hint {
+        margin-top: 1rem;
+        opacity: 0.85;
+        font-size: 0.95rem;
+      }
+      code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>My portfolio has moved</h1>
+      <p>
+        You will be redirected to the latest version of my portfolio in
+        <strong><span id="countdown">3</span>s</strong>.
+      </p>
+      <a class="button" href="https://samin-yasar.dev">Go to samin-yasar.dev</a>
+      <p class="hint" id="status">
+        If the redirect does not happen automatically, click the button above.
+      </p>
+    </main>
+
+    <script>
+      (function () {
+        var targetUrl = "https://samin-yasar.dev";
+        var seconds = 3;
+        var countdown = document.getElementById("countdown");
+
+        var timer = setInterval(function () {
+          seconds -= 1;
+          if (seconds >= 0 && countdown) {
+            countdown.textContent = String(seconds);
+          }
+          if (seconds <= 0) {
+            clearInterval(timer);
+            window.location.assign(targetUrl);
+          }
+        }, 1000);
+      })();
+    </script>
+  </body>
+</html>
