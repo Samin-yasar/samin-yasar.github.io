@@ -1,88 +1,195 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio Moved</title>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio Moved | Samin Yasar">
+    <title>Portfolio Moved | Samin Yasar</title>
+    
+    <!-- External Fonts for consistency with current portfolio -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Auto-redirect fallback (3 seconds) -->
     <meta http-equiv="refresh" content="3; url=https://samin-yasar.dev" />
+
     <style>
-      :root {
-        color-scheme: light dark;
-      }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
-        color: #e2e8f0;
-      }
-      main {
-        width: min(92vw, 560px);
-        padding: 2rem;
-        border-radius: 1rem;
-        background: rgba(15, 23, 42, 0.85);
-        border: 1px solid rgba(148, 163, 184, 0.3);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-        text-align: center;
-      }
-      h1 {
-        margin-top: 0;
-      }
-      p {
-        line-height: 1.55;
-        margin-bottom: 1.2rem;
-      }
-      .button {
-        display: inline-block;
-        text-decoration: none;
-        color: #0f172a;
-        background: #38bdf8;
-        padding: 0.75rem 1.1rem;
-        border-radius: 0.625rem;
-        font-weight: 700;
-      }
-      .hint {
-        margin-top: 1rem;
-        opacity: 0.85;
-        font-size: 0.95rem;
-      }
-      code {
-        white-space: nowrap;
-      }
+        :root {
+            --primary: #4f46e5;
+            --secondary: #0ea5e9;
+            --accent: #14b8a6;
+            --accent-bright: #2dd4bf;
+            --dark: #0f172a;
+            --light: #f1f5f9;
+            --gray: #94a3b8;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(79, 70, 229, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Subtle animated background pulse */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(20, 184, 166, 0.1) 0%, transparent 40%);
+            animation: bgPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            from { opacity: 0.6; }
+            to { opacity: 1; }
+        }
+
+        .redirect-wrapper {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 2rem;
+            padding: 3rem 2rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .icon-shield {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .countdown-timer {
+            font-weight: 700;
+            color: var(--accent-bright);
+            font-size: 1.2rem;
+        }
+
+        .btn-go {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-go:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .footer-note {
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            opacity: 0.4;
+            color: var(--gray);
+        }
     </style>
-  </head>
-  <body>
-    <main>
-      <h1>My portfolio has moved</h1>
-      <p>
-        You will be redirected to the latest version of my portfolio in
-        <strong><span id="countdown">3</span>s</strong>.
-      </p>
-      <a class="button" href="https://samin-yasar.dev">Go to samin-yasar.dev</a>
-      <p class="hint" id="status">
-        If the redirect does not happen automatically, click the button above.
-      </p>
-    </main>
+</head>
+
+<body>
+    <div class="redirect-wrapper">
+        <div class="icon-shield">
+            <i class="fas fa-shield-halved"></i>
+        </div>
+        
+        <h1>Portfolio Moved</h1>
+        
+        <p>
+            My creative space has shifted to a new domain.<br>
+            Redirecting to <strong>samin-yasar.dev</strong> in 
+            <span class="countdown-timer" id="countdown">3</span>s...
+        </p>
+
+        <a href="https://samin-yasar.dev" class="btn-go">
+            Access Now <i class="fas fa-arrow-right"></i>
+        </a>
+
+        <div class="footer-note">
+            &copy; Samin Yasar &bull; Cyber-secure Redirection
+        </div>
+    </div>
 
     <script>
-      (function () {
-        var targetUrl = "https://samin-yasar.dev";
-        var seconds = 3;
-        var countdown = document.getElementById("countdown");
+        (function () {
+            const dest = "https://samin-yasar.dev";
+            let timeLeft = 3;
+            const display = document.getElementById("countdown");
 
-        var timer = setInterval(function () {
-          seconds -= 1;
-          if (seconds >= 0 && countdown) {
-            countdown.textContent = String(seconds);
-          }
-          if (seconds <= 0) {
-            clearInterval(timer);
-            window.location.assign(targetUrl);
-          }
-        }, 1000);
-      })();
+            const timer = setInterval(() => {
+                timeLeft--;
+                if (display) display.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    window.location.assign(dest);
+                }
+            }, 1000);
+        })();
     </script>
-  </body>
+</body>
+
 </html>
